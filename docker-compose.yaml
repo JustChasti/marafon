@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+
+  mongo:
+    image: mongo
+    container_name: mongo
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - /opt/db/mongo:/data/db
+    networks:
+      - sayno_net
+
+  bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: saynobot
+    container_name: sayno
+    restart: always
+    tty: True
+    working_dir: /
+    networks:
+      - sayno_net
+
+networks:
+  sayno_net:
+    driver: bridge
