@@ -13,7 +13,7 @@ while True:
             port=base_port,
         )
         db = client[client_name]
-        regular_tasks = db["regular_tasks"]
+        shichko_collection = db["shichko"]
         user_collection = db["user"]
         break
     except Exception as e:

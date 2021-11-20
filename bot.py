@@ -1,8 +1,10 @@
 from os import name
-from config import bot
 from loguru import logger
 from telebot import *
 from db.db import user_collection
+from config import bot
+from datetime import date
+from tasks.shichko import shichko
 
 
 @bot.message_handler(commands=['help', 'start'])
@@ -20,22 +22,38 @@ def start_chat(message):
 
 
 @bot.message_handler(content_types=['text'])
-def get_text_messages(message):
+def main_chat(message):
     result = user_collection.find_one({'telegram_id': message.from_user.id})
     if not result:
         bot.send_message(message.from_user.id,
                          "Вы незарегистрированы"
                          )
     elif message.text == 'Мышление':
+        keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        button1 = types.KeyboardButton('Шичко')
+        button2 = types.KeyboardButton('Благодарности')
+        button3 = types.KeyboardButton('Планирование')
+        keyboard.row(button1, button2, button3)
+        button4 = types.KeyboardButton('Книга')
+        button5 = types.KeyboardButton('Аудиокнига')
+        keyboard.row(button4, button5)
         bot.send_message(message.from_user.id,
-                         "Мышление"
+                         "Выбери задание",
+                         reply_markup=keyboard
                          )
+    elif message.text == 'Шичко':
+        bot.send_message(message.from_user.id,
+                         "Загрузите Шичко",
+                         reply_markup=types.ReplyKeyboardRemove()
+                         )
+        bot.register_next_step_handler(message, shichko)
     elif message.text == 'Здоровье':
         bot.send_message(message.from_user.id,
                          "Здоровье"
                          )
     else:
         pass
+
 
 def registration(message):
     result = user_collection.find_one({'name': message.text})
@@ -88,5 +106,6 @@ def process_callback_button1(callback_query: types.CallbackQuery):
         bot.send_message(callback_query.from_user.id,
                          "Работа по этой программе вам недоступна"
                          )
+
 
 bot.polling(none_stop=True)
