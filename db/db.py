@@ -21,7 +21,10 @@ while True:
         clean_collection = db["clean"]
         sport_collection = db["sport"]
         run_walk_collection = db["run_walk"]
+
         user_collection = db["user"]
+        main_collection = db["main"]
+
         break
     except Exception as e:
         logger.exception(e)

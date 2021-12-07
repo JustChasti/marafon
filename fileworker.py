@@ -12,7 +12,7 @@ def main_tasks_worker():
     main_tasks_time = ddtime(main_hours)
     while True:
         users = user_collection.find({})
-        main_tasks_time = ddtime(3,44)
+        main_tasks_time = ddtime(15,7)
         if datetime.now().time().hour == main_tasks_time.hour:
             for i in users:
                 task = 0
@@ -29,10 +29,14 @@ def main_tasks_worker():
                     for line in f:
                         if '~' in line:
                             if task == counter:
-                                keyboard = types.InlineKeyboardMarkup()
-                                button1 = types.InlineKeyboardButton('Сдать задание', callback_data=f"mt/{counter}")
-                                keyboard.add(button1)
-                                bot.send_message(i["telegram_id"], s, reply_markup=keyboard)
+                                tail = line[1:]
+                                if tail != 's':
+                                    keyboard = types.InlineKeyboardMarkup()
+                                    button1 = types.InlineKeyboardButton('Сдать задание', callback_data=f"mt/{counter}.{line[1:]}")
+                                    keyboard.add(button1)
+                                    bot.send_message(i["telegram_id"], s, reply_markup=keyboard)
+                                else:
+                                    bot.send_message(i["telegram_id"], s)
                             elif task > counter:
                                 break
                             s = ''

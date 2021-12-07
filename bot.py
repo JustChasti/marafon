@@ -16,6 +16,8 @@ from tasks.fitness_game import game
 from tasks.sport import sport
 from tasks.jogging import run_walk
 
+from tasks.maintasks import m_tasks
+
 
 @bot.message_handler(commands=['help', 'start'])
 def start_chat(message):
@@ -144,9 +146,9 @@ def main_chat(message):
             button4 = types.KeyboardButton('Назад')
             keyboard.row(button4)
             bot.send_message(message.from_user.id,
-                            "Выбери статистику",
-                            reply_markup=keyboard
-                            )
+                             "Выбери статистику",
+                             reply_markup=keyboard
+                             )
         else:
             keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
             button1 = types.KeyboardButton('За все время')
@@ -155,9 +157,9 @@ def main_chat(message):
             button3 = types.KeyboardButton('Назад')
             keyboard.row(button3)
             bot.send_message(message.from_user.id,
-                            "Выбери статистику",
-                            reply_markup=keyboard
-                            )
+                             "Выбери статистику",
+                             reply_markup=keyboard
+                             )
 
     elif message.text == 'Текущая неделя среди новичков':
         print(1)
@@ -183,6 +185,7 @@ def sport_photo(message):
             run_walk(message, False)
     except TypeError:
         print(11111)
+
 
 def registration(message):
     result = user_collection.find_one({'name': message.text})
@@ -318,10 +321,11 @@ def process_callback_button4(callback_query: types.CallbackQuery):
 
 @bot.callback_query_handler(func=lambda c: c.data[:3] == 'mt/')
 def main_tasks(callback_query: types.CallbackQuery):
-    result = user_collection.find_one({'telegram_id': callback_query.from_user.id})
-    bot.send_message(callback_query.from_user.id,
-                        f"{callback_query.data}"
-                        )
+    task_id = callback_query.data[3:]
+    msg = bot.send_message(callback_query.message.chat.id,
+                           "Напишите ответ или загрузите в виде фото"
+                           )
+    bot.register_next_step_handler(msg, m_tasks, task_id)
 
 
 bot.polling(none_stop=True)
