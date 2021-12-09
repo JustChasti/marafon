@@ -22,7 +22,7 @@ def main_tasks_worker():
                     elif i["programm"] == "start":
                         f = open('tasks/start_tasks.txt', 'r', encoding="utf8")
                     elif i["programm"] == "profi":
-                        f = open('tasks/profi_tasks.txt', 'r', encoding="utf8")
+                        f = open('tasks/expert_tasks.txt', 'r', encoding="utf8")
                     elif i["programm"] == "leader":
                         f = open('tasks/leader_tasks.txt', 'r', encoding="utf8")
                     s = ''

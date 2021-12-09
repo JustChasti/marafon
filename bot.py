@@ -1,9 +1,10 @@
 from os import name
+from datetime import date
+from threading import Thread
 from loguru import logger
 from telebot import *
 from db.db import user_collection
 from config import bot
-from datetime import date
 
 from tasks.shichko import shichko
 from tasks.thanks import thanks
@@ -17,6 +18,8 @@ from tasks.sport import sport
 from tasks.jogging import run_walk
 
 from tasks.maintasks import m_tasks
+from fileworker import main_tasks_worker
+from excel import converter
 
 
 @bot.message_handler(commands=['help', 'start'])
@@ -170,6 +173,11 @@ def main_chat(message):
     elif message.text == 'Среди всех потоков':
         print(1)
 
+    elif message.text == 'Вывод монги':
+        users = user_collection.find({})
+        for i in users:
+            print(i)
+
     else:
         print(message.text)
 
@@ -202,9 +210,9 @@ def registration(message):
         keyboard = types.InlineKeyboardMarkup()
         button1 = types.InlineKeyboardButton('Новичок', callback_data='beginer')
         button2 = types.InlineKeyboardButton('Старт', callback_data='starter')
-        button3 = types.InlineKeyboardButton('Профи', callback_data='profi')
-        button4 = types.InlineKeyboardButton('Лидер', callback_data='leader')
-        keyboard.add(button1, button2, button3, button4)
+        button3 = types.InlineKeyboardButton('Лидер', callback_data='profi')
+        button4 = types.InlineKeyboardButton('Эксперт', callback_data='leader')
+        keyboard.row(button1, button2, button3, button4)
         bot.send_message(message.from_user.id,
                          "Теперь выбери свой этап. Если ты выпуснкик, то можешь выбрать любой из этапов",
                          reply_markup=keyboard
@@ -270,7 +278,7 @@ def process_callback_button2(callback_query: types.CallbackQuery):
 @bot.callback_query_handler(func=lambda c: c.data == 'profi')
 def process_callback_button3(callback_query: types.CallbackQuery):
     result = user_collection.find_one({'telegram_id': callback_query.from_user.id})
-    if (result["stage"] == "Профи") or (result["stage"] == "Выпускник"):
+    if (result["stage"] == "Эксперт") or (result["stage"] == "Выпускник"):
         element = {
             "$set": {
                 'programm': 'profi'
@@ -284,7 +292,7 @@ def process_callback_button3(callback_query: types.CallbackQuery):
         button3 = types.KeyboardButton('Статистика')
         keyboard.add(button1, button2, button3)
         bot.send_message(callback_query.from_user.id,
-                         "Теперь вы работаете по программе Профи",
+                         "Теперь вы работаете по программе Эксперт",
                          reply_markup=keyboard
                          )
     else:
@@ -328,4 +336,10 @@ def main_tasks(callback_query: types.CallbackQuery):
     bot.register_next_step_handler(msg, m_tasks, task_id)
 
 
-bot.polling(none_stop=True)
+try:
+    converter.excel_to_mongo("input.xlsx")
+    main_tasks_thread = Thread(target=main_tasks_worker)
+    main_tasks_thread.start()
+    bot.polling(none_stop=True)
+except Exception as e:
+    logger.exception(e)

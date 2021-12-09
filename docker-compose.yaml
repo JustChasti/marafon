@@ -1,0 +1,32 @@
+version: '3'
+
+volumes:
+  vkapi:
+
+services:
+
+  mongo:
+    image: mongo
+    container_name: saynomongo
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - /opt/db/saynomongo:/data/saynomongo
+    networks:
+      - sayno_network
+
+  bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: sayno_bot
+    container_name: sayno_bot
+    restart: always
+    tty: True
+    working_dir: /
+    networks:
+      - sayno_network
+
+networks:
+  sayno_network:
+    driver: bridge
