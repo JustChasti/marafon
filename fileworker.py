@@ -12,7 +12,6 @@ def main_tasks_worker():
     main_tasks_time = ddtime(main_hours)
     while True:
         users = user_collection.find({})
-        main_tasks_time = ddtime(15,7)
         if datetime.now().time().hour == main_tasks_time.hour:
             for i in users:
                 task = 0
