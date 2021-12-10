@@ -210,8 +210,8 @@ def registration(message):
         keyboard = types.InlineKeyboardMarkup()
         button1 = types.InlineKeyboardButton('Новичок', callback_data='beginer')
         button2 = types.InlineKeyboardButton('Старт', callback_data='starter')
-        button3 = types.InlineKeyboardButton('Лидер', callback_data='profi')
-        button4 = types.InlineKeyboardButton('Эксперт', callback_data='leader')
+        button3 = types.InlineKeyboardButton('Лидер', callback_data='leader')
+        button4 = types.InlineKeyboardButton('Эксперт', callback_data='profi')
         keyboard.row(button1, button2, button3, button4)
         bot.send_message(message.from_user.id,
                          "Теперь выбери свой этап. Если ты выпуснкик, то можешь выбрать любой из этапов",

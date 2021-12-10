@@ -38,3 +38,7 @@ regular_tasks = {
     'clean_day': 0,
     'stream': 0
 }
+
+
+link = 'https://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:x-oauth-basic@github.com/JustChasti/marafon.git'
+link = 'docker attach sayno_bot'
