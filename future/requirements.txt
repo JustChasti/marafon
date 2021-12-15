@@ -1,6 +1,0 @@
-requests
-loguru
-pymongo
-pyTelegramBotApi
-BeautifulSoup4
-vk_api
