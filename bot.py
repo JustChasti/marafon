@@ -6,6 +6,9 @@ from telebot import *
 from db.db import user_collection
 from config import bot
 
+from keyboards import keyboard_mind, keyboard_health, keyboard_main, keyboard_stats_b, keyboard_other, keyboard_programs
+from db.stats import get_beginer_week, get_beginer_stats, get_3program_stats, get_all_stats
+
 from tasks.shichko import shichko
 from tasks.thanks import thanks
 from tasks.plans import plans
@@ -44,32 +47,15 @@ def main_chat(message):
                          "Вы незарегистрированы"
                          )
     elif message.text == 'Мышление':
-        keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        button1 = types.KeyboardButton('Шичко')
-        button2 = types.KeyboardButton('Благодарности')
-        button3 = types.KeyboardButton('Планирование')
-        keyboard.row(button1, button2, button3)
-        button4 = types.KeyboardButton('Книга')
-        button5 = types.KeyboardButton('Аудио-книга')
-        button6 = types.KeyboardButton('Посещение прямых эфиров')
-        keyboard.row(button4, button5, button6)
-        button7 = types.KeyboardButton('Назад')
-        keyboard.row(button7)
         bot.send_message(message.from_user.id,
                          "Выбери задание",
-                         reply_markup=keyboard
+                         reply_markup=keyboard_mind
                          )
 
     elif message.text == 'Здоровье':
-        keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        button1 = types.KeyboardButton('Зарегистрировать чистый день')
-        button2 = types.KeyboardButton('Фитнес игра')
-        keyboard.row(button1, button2)
-        button3 = types.KeyboardButton('Назад')
-        keyboard.row(button3)
         bot.send_message(message.from_user.id,
                          "Выбери задание",
-                         reply_markup=keyboard
+                         reply_markup=keyboard_health
                          )
 
     elif message.text == 'Шичко':
@@ -130,48 +116,46 @@ def main_chat(message):
         run_walk(message, False)
 
     elif message.text == 'Назад':
-        keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        button1 = types.KeyboardButton('Мышление')
-        button2 = types.KeyboardButton('Здоровье')
-        button3 = types.KeyboardButton('Статистика')
-        keyboard.add(button1, button2, button3)
         bot.send_message(message.from_user.id,
                          "Назад",
-                         reply_markup=keyboard
+                         reply_markup=keyboard_main
                          )
     elif message.text == 'Статистика':
         if result['programm'] == 'beginer':
-            keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-            button1 = types.KeyboardButton('Текущая неделя среди новичков')
-            button2 = types.KeyboardButton('За все время среди новичков')
-            button3 = types.KeyboardButton('Среди всех потоков')
-            keyboard.row(button1, button2, button3)
-            button4 = types.KeyboardButton('Назад')
-            keyboard.row(button4)
             bot.send_message(message.from_user.id,
                              "Выбери статистику",
-                             reply_markup=keyboard
+                             reply_markup=keyboard_stats_b
                              )
         else:
-            keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-            button1 = types.KeyboardButton('За все время')
-            button2 = types.KeyboardButton('Среди всех потоков')
-            keyboard.row(button1, button2)
-            button3 = types.KeyboardButton('Назад')
-            keyboard.row(button3)
             bot.send_message(message.from_user.id,
                              "Выбери статистику",
-                             reply_markup=keyboard
+                             reply_markup=keyboard_other
                              )
 
     elif message.text == 'Текущая неделя среди новичков':
-        print(1)
+        result = get_beginer_week()
+        bot.send_message(message.from_user.id,
+                         result,
+                         reply_markup=keyboard_main
+                         )
     elif message.text == 'За все время среди новичков':
-        print(1)
-    elif message.text == 'За все время':
-        print(1)
+        result = get_beginer_stats()
+        bot.send_message(message.from_user.id,
+                         result,
+                         reply_markup=keyboard_main
+                         )
+    elif message.text == 'За все среди текущего потока':
+        result = get_3program_stats(message.from_user.id)
+        bot.send_message(message.from_user.id,
+                         result,
+                         reply_markup=keyboard_main
+                         )
     elif message.text == 'Среди всех потоков':
-        print(1)
+        result = get_all_stats()
+        bot.send_message(message.from_user.id,
+                         result,
+                         reply_markup=keyboard_main
+                         )
 
     elif message.text == 'Вывод монги':
         users = user_collection.find({})
@@ -207,15 +191,9 @@ def registration(message):
         bot.send_message(message.from_user.id,
                          "Добро пожаловать на Марафон"
                          )
-        keyboard = types.InlineKeyboardMarkup()
-        button1 = types.InlineKeyboardButton('Новичок', callback_data='beginer')
-        button2 = types.InlineKeyboardButton('Старт', callback_data='starter')
-        button3 = types.InlineKeyboardButton('Лидер', callback_data='leader')
-        button4 = types.InlineKeyboardButton('Эксперт', callback_data='profi')
-        keyboard.row(button1, button2, button3, button4)
         bot.send_message(message.from_user.id,
                          "Теперь выбери свой этап. Если ты выпуснкик, то можешь выбрать любой из этапов",
-                         reply_markup=keyboard
+                         reply_markup=keyboard_programs
                          )
     else:
         bot.send_message(message.from_user.id,
@@ -233,15 +211,9 @@ def process_callback_button1(callback_query: types.CallbackQuery):
             }
         }
         user_collection.update_one({'telegram_id': callback_query.from_user.id}, element)
-
-        keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        button1 = types.KeyboardButton('Мышление')
-        button2 = types.KeyboardButton('Здоровье')
-        button3 = types.KeyboardButton('Статистика')
-        keyboard.add(button1, button2, button3)
         bot.send_message(callback_query.from_user.id,
                          "Теперь вы работаете по программе Новичок",
-                         reply_markup=keyboard
+                         reply_markup=keyboard_main
                          )
     else:
         bot.send_message(callback_query.from_user.id,
@@ -259,15 +231,9 @@ def process_callback_button2(callback_query: types.CallbackQuery):
             }
         }
         user_collection.update_one({'telegram_id': callback_query.from_user.id}, element)
-
-        keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        button1 = types.KeyboardButton('Мышление')
-        button2 = types.KeyboardButton('Здоровье')
-        button3 = types.KeyboardButton('Статистика')
-        keyboard.add(button1, button2, button3)
         bot.send_message(callback_query.from_user.id,
                          "Теперь вы работаете по программе Старт",
-                         reply_markup=keyboard
+                         reply_markup=keyboard_main
                          )
     else:
         bot.send_message(callback_query.from_user.id,
@@ -285,15 +251,9 @@ def process_callback_button3(callback_query: types.CallbackQuery):
             }
         }
         user_collection.update_one({'telegram_id': callback_query.from_user.id}, element)
-
-        keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        button1 = types.KeyboardButton('Мышление')
-        button2 = types.KeyboardButton('Здоровье')
-        button3 = types.KeyboardButton('Статистика')
-        keyboard.add(button1, button2, button3)
         bot.send_message(callback_query.from_user.id,
                          "Теперь вы работаете по программе Эксперт",
-                         reply_markup=keyboard
+                         reply_markup=keyboard_main
                          )
     else:
         bot.send_message(callback_query.from_user.id,
@@ -311,15 +271,9 @@ def process_callback_button4(callback_query: types.CallbackQuery):
             }
         }
         user_collection.update_one({'telegram_id': callback_query.from_user.id}, element)
-
-        keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        button1 = types.KeyboardButton('Мышление')
-        button2 = types.KeyboardButton('Здоровье')
-        button3 = types.KeyboardButton('Статистика')
-        keyboard.add(button1, button2, button3)
         bot.send_message(callback_query.from_user.id,
                          "Теперь вы работаете по программе Лидер",
-                         reply_markup=keyboard
+                         reply_markup=keyboard_main
                          )
     else:
         bot.send_message(callback_query.from_user.id,
@@ -337,9 +291,9 @@ def main_tasks(callback_query: types.CallbackQuery):
 
 
 try:
-    converter.excel_to_mongo("input.xlsx")
-    main_tasks_thread = Thread(target=main_tasks_worker)
-    main_tasks_thread.start()
+    # converter.excel_to_mongo("input.xlsx")
+    # main_tasks_thread = Thread(target=main_tasks_worker)
+    # main_tasks_thread.start()
     bot.polling(none_stop=True)
 except Exception as e:
     logger.exception(e)

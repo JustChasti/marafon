@@ -22,7 +22,7 @@ def game(message):
             week = 'week 1'
         elif delta < 14:
             week = 'week 2'
-        elif delta < 14:
+        elif delta < 21:
             week = 'week 3'
         else:
             week = 'week 4'
@@ -45,9 +45,9 @@ def game(message):
             }
             user_collection.update_one({'_id': result["_id"]}, element)
         bot.send_message(message.from_user.id,
-                            "Фитнесс игра засчитана",
-                            reply_markup=keyboard
-                            )
+                         "Фитнесс игра засчитана",
+                         reply_markup=keyboard
+                         )
 
     else:
         delta = date.today() - start_date
@@ -69,6 +69,6 @@ def game(message):
             }
             user_collection.update_one({'_id': result["_id"]}, element)
         bot.send_message(message.from_user.id,
-                            "Фитнесс игра засчитана",
-                            reply_markup=keyboard
-                            )
+                         "Фитнесс игра засчитана",
+                         reply_markup=keyboard
+                         )

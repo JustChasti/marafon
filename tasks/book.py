@@ -32,7 +32,7 @@ def book(message):
             week = 'week 1'
         elif delta < 14:
             week = 'week 2'
-        elif delta < 14:
+        elif delta < 21:
             week = 'week 3'
         else:
             week = 'week 4'

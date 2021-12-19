@@ -1,0 +1,50 @@
+from telebot import *
+
+
+keyboard_mind = types.ReplyKeyboardMarkup(resize_keyboard=True)
+button1 = types.KeyboardButton('Шичко')
+button2 = types.KeyboardButton('Благодарности')
+button3 = types.KeyboardButton('Планирование')
+keyboard_mind.row(button1, button2, button3)
+button4 = types.KeyboardButton('Книга')
+button5 = types.KeyboardButton('Аудио-книга')
+button6 = types.KeyboardButton('Посещение прямых эфиров')
+keyboard_mind.row(button4, button5, button6)
+button7 = types.KeyboardButton('Назад')
+keyboard_mind.row(button7)
+
+
+keyboard_health = types.ReplyKeyboardMarkup(resize_keyboard=True)
+button1 = types.KeyboardButton('Зарегистрировать чистый день')
+button2 = types.KeyboardButton('Фитнес игра')
+keyboard_health.row(button1, button2)
+button3 = types.KeyboardButton('Назад')
+keyboard_health.row(button3)
+
+keyboard_main = types.ReplyKeyboardMarkup(resize_keyboard=True)
+button1 = types.KeyboardButton('Мышление')
+button2 = types.KeyboardButton('Здоровье')
+button3 = types.KeyboardButton('Статистика')
+keyboard_main.add(button1, button2, button3)
+
+keyboard_stats_b = types.ReplyKeyboardMarkup(resize_keyboard=True)
+button1 = types.KeyboardButton('Текущая неделя среди новичков')
+button2 = types.KeyboardButton('За все время среди новичков')
+button3 = types.KeyboardButton('Среди всех потоков')
+keyboard_stats_b.row(button1, button2, button3)
+button4 = types.KeyboardButton('Назад')
+keyboard_stats_b.row(button4)
+
+keyboard_other = types.ReplyKeyboardMarkup(resize_keyboard=True)
+button1 = types.KeyboardButton('За все среди текущего потока')
+button2 = types.KeyboardButton('Среди всех потоков')
+keyboard_other.row(button1, button2)
+button3 = types.KeyboardButton('Назад')
+keyboard_other.row(button3)
+
+keyboard_programs = types.InlineKeyboardMarkup()
+button1 = types.InlineKeyboardButton('Новичок', callback_data='beginer')
+button2 = types.InlineKeyboardButton('Старт', callback_data='starter')
+button3 = types.InlineKeyboardButton('Лидер', callback_data='leader')
+button4 = types.InlineKeyboardButton('Эксперт', callback_data='profi')
+keyboard_programs.row(button1, button2, button3, button4)
