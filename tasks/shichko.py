@@ -71,7 +71,6 @@ def shichko(message):
                         week: data
                     }
                 }
-                print("Элемент", element)
                 user_collection.update_one({'_id': result["_id"]}, element)
             except KeyError as e:
                 data_week = regular_tasks

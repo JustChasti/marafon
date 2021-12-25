@@ -8,6 +8,8 @@ main_hours = 8
 
 bot = telebot.TeleBot(token)
 
+admin_password = 'admin01'
+
 scores = {
     "Шичко": 5,
     "Планирование": 5,
@@ -30,9 +32,7 @@ regular_tasks = {
     'main_tasks': 0,
     'book': 0,
     'audio_book': 0,
-    'analyzes': 0,
     'sport': 0,
-    'jogging': 0,
     'fitness-game': 0,
     'walk': 0,
     'clean_day': 0,

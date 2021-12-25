@@ -90,3 +90,12 @@ db/__pycache__/stats.cpython-39.pyc
 excel/__pycache__/config.cpython-39.pyc
 excel/__pycache__/config.cpython-39.pyc
 tasks/__pycache__/shichko.cpython-39.pyc
+1311858604/2021-12-23-shichko.jpg
+.gitignore
+.gitignore
+excel/stats.xlsx
+excel/stats0.xlsx
+admin/__pycache__/users.cpython-39.pyc
+admin/__pycache__/tasks.cpython-39.pyc
+excel/__pycache__/config.cpython-39.pyc
+excel/__pycache__/converter.cpython-39.pyc
