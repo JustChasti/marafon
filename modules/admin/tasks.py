@@ -3,11 +3,11 @@ from loguru import logger
 from db.db import user_collection
 from db.db import main_collection, run_walk_collection, sport_collection, books_collection, plans_collection, thanks_collection, shichko_collection
 from config import bot
-from keyboards import keyboard_admin
+from modules.keyboards import keyboard_admin
 import openpyxl
 
 
-excel_path = 'excel/stats.xlsx'
+excel_path = 'modules/excel/data/stats.xlsx'
 
 
 def collectoin_out(message, collection, c_name):
@@ -41,14 +41,14 @@ def table_to_excel(message, collection, c_name, admin_panel):
         sheet[f'B{counter}'] = i["data"]
         sheet[f'C{counter}'] = i["date"]
         counter += 1
-    wb.save(f'excel/{c_name}.xlsx')
-    doc = open(f'excel/{c_name}.xlsx', 'rb')
+    wb.save(f'modules/excel/data/{c_name}.xlsx')
+    doc = open(f'modules/excel/data/{c_name}.xlsx', 'rb')
     bot.send_document(message.from_user.id,
                         doc,
                         reply_markup=keyboard_admin
                         )
     doc.close()
-    remove(f'excel/{c_name}.xlsx')
+    remove(f'modules/excel/data/{c_name}.xlsx')
     bot.register_next_step_handler(message, admin_panel)
 
 

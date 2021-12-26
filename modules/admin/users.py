@@ -4,9 +4,9 @@ from loguru import logger
 from db.db import user_collection
 from config import bot
 from config import start_date
-from keyboards import keyboard_admin
+from modules.keyboards import keyboard_admin
 import openpyxl
-import excel.converter
+from  modules.excel import converter
 
 
 def add_to_user(message, data, admin_panel):
@@ -43,7 +43,7 @@ def add_to_user(message, data, admin_panel):
     bot.register_next_step_handler(message, admin_panel)
 
 
-excel_path = 'excel/stats0.xlsx'
+excel_path = 'modules/excel/data/stats0.xlsx'
 
 
 def get_beginer_week_table(message, data, admin_panel):
@@ -82,25 +82,26 @@ def get_beginer_week_table(message, data, admin_panel):
                 sum = 0
                 sheet[f'A{row}'] = i["name"]
                 column = 'B'
+                print(data)
                 for j in data:
                     sum += int(data[j])
                     sheet[f'{column}{row}'] = data[j]
                     column = chr(ord(column) + 1)
                 sheet[f'{column}{row}'] = sum
                 row += 1
-            wb.save('excel/begins_stat.xlsx')
+            wb.save('modules/excel/data/begins_stat.xlsx')
 
         except Exception as e:
             logger.exception(e)
 
 
-        doc = open('excel/begins_stat.xlsx', 'rb')
+        doc = open('modules/excel/data/begins_stat.xlsx', 'rb')
         bot.send_document(message.from_user.id,
                             doc,
                             reply_markup=keyboard_admin
                             )
         doc.close()
-        remove('excel/begins_stat.xlsx')
+        remove('modules/excel/data/begins_stat.xlsx')
     except Exception as e:
         logger.exception(e)
         bot.send_message(
@@ -211,16 +212,16 @@ def get_potok_table(message, data, admin_panel):
 
             sheet[f'N{row}'] = sum
             row += 1
-        wb.save('excel/begins_stat.xlsx')
+        wb.save('modules/excel/data/begins_stat.xlsx')
 
 
-        doc = open('excel/begins_stat.xlsx', 'rb')
+        doc = open('modules/excel/data/begins_stat.xlsx', 'rb')
         bot.send_document(message.from_user.id,
                             doc,
                             reply_markup=keyboard_admin
                             )
         doc.close()
-        remove('excel/begins_stat.xlsx')
+        remove('modules/excel/data/begins_stat.xlsx')
     except Exception as e:
         logger.exception(e)
         bot.send_message(
@@ -270,15 +271,15 @@ def get_all_table(message, data, admin_panel):
             row += 1
 
 
-        wb.save('excel/begins_stat.xlsx')
+        wb.save('modules/excel/data/begins_stat.xlsx')
 
-        doc = open('excel/begins_stat.xlsx', 'rb')
+        doc = open('modules/excel/data/begins_stat.xlsx', 'rb')
         bot.send_document(message.from_user.id,
                             doc,
                             reply_markup=keyboard_admin
                             )
         doc.close()
-        remove('excel/begins_stat.xlsx')
+        remove('modules/excel/data/begins_stat.xlsx')
     except Exception as e:
         logger.exception(e)
         bot.send_message(
@@ -294,7 +295,7 @@ def up_potok_main(message, admin_panel):
         fileID = message.document.file_id
         file_info = bot.get_file(fileID)
         data = bot.download_file(file_info.file_path)
-        name = f'tasks/{message.document.file_name}'
+        name = f'modules/reminder/data/{message.document.file_name}'
         with open(name, 'wb') as out:
                 out.write(data)
         bot.send_message(
@@ -317,10 +318,10 @@ def up_to_excel(message, admin_panel):
         fileID = message.document.file_id
         file_info = bot.get_file(fileID)
         data = bot.download_file(file_info.file_path)
-        name = f'excel/{message.document.file_name}'
+        name = f'modules/excel/data/{message.document.file_name}'
         with open(name, 'wb') as out:
                 out.write(data)
-        excel.converter.excel_to_mongo(name)
+        converter.excel_to_mongo(name)
         bot.send_message(
             message.from_user.id,
             f'загружен файл {name}',

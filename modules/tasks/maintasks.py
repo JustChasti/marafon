@@ -1,12 +1,21 @@
 import os
 from telebot import types
 from datetime import date
-from db.db import user_collection, sport_collection
-from config import bot, start_date, scores, regular_tasks
+from db.db import user_collection, main_collection
+from config import bot, start_date, regular_tasks
 
 
-def update_sport(data, user_name):
-    result = sport_collection.find_one(
+@bot.callback_query_handler(func=lambda c: c.data[:3] == 'mt/')
+def main_tasks(callback_query: types.CallbackQuery):
+    task_id = callback_query.data[3:]
+    msg = bot.send_message(callback_query.message.chat.id,
+                           "Напишите ответ или загрузите в виде фото"
+                           )
+    bot.register_next_step_handler(msg, m_tasks, task_id)
+
+
+def update_main_tasks(data, user_name):
+    result = main_collection.find_one(
         {
             'user': user_name,
             'date': str(date.today())
@@ -21,18 +30,22 @@ def update_sport(data, user_name):
             'data': data
 
         }
-        sport_collection.insert_one(element)
+        main_collection.insert_one(element)
         return True
 
 
-def sport(message):
+def m_tasks(message, task_data):
+    path = f'user-data/{message.from_user.id}'
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
     button1 = types.KeyboardButton('Мышление')
     button2 = types.KeyboardButton('Здоровье')
     button3 = types.KeyboardButton('Статистика')
     keyboard.add(button1, button2, button3)
-
     result = user_collection.find_one({'telegram_id': message.from_user.id})
+
+    task_id, task_score = task_data.split(".")
+    task_id, task_score = int(task_id), int(task_score)
+
     if result["programm"] == "beginer":
         delta = date.today() - start_date
         delta = int(delta.days)
@@ -40,8 +53,7 @@ def sport(message):
             fileID = message.photo[-1].file_id
             file_info = bot.get_file(fileID)
             data = bot.download_file(file_info.file_path)
-            path = message.from_user.id
-            name = f'{path}/{date.today()}-sport.jpg'
+            name = f'{path}/{date.today()}-задание {task_id}.jpg'
             try:
                 with open(name, 'wb') as out:
                     out.write(data)
@@ -49,10 +61,10 @@ def sport(message):
                 os.makedirs(str(path))
                 with open(name, 'wb') as out:
                     out.write(data)
-            response = update_sport(name, result["name"])
+            response = update_main_tasks(name, result["name"])
         else:
             data = message.text
-            response = update_sport(data, result["name"])
+            response = update_main_tasks(data, result["name"])
 
         if response:
             if delta < 7:
@@ -65,7 +77,7 @@ def sport(message):
                 week = 'week 4'
             try:
                 data = result[week]
-                data["sport"] += scores["Тренировка"]
+                data["main_tasks"] += task_score
                 element = {
                     "$set": {
                         week: data
@@ -74,7 +86,7 @@ def sport(message):
                 user_collection.update_one({'_id': result["_id"]}, element)
             except KeyError as e:
                 data_week = regular_tasks
-                data_week['sport'] = scores["Тренировка"]
+                data_week['main_tasks'] = task_score
                 element = {
                     "$set": {
                         week: data_week
@@ -82,12 +94,12 @@ def sport(message):
                 }
                 user_collection.update_one({'_id': result["_id"]}, element)
             bot.send_message(message.from_user.id,
-                             "Тренировка загружена",
+                             "Задание загружено",
                              reply_markup=keyboard
                              )
         else:
             bot.send_message(message.from_user.id,
-                             "Вы уже загрузили сегодня Тренировкe",
+                             "Вы уже делали сегодня основное задание",
                              reply_markup=keyboard
                              )
 
@@ -96,8 +108,7 @@ def sport(message):
             fileID = message.photo[-1].file_id
             file_info = bot.get_file(fileID)
             data = bot.download_file(file_info.file_path)
-            path = message.from_user.id
-            name = f'{path}/{date.today()}-sport.jpg'
+            name = f'{path}/{date.today()}-задание {task_id}.jpg'
             try:
                 with open(name, 'wb') as out:
                     out.write(data)
@@ -105,33 +116,33 @@ def sport(message):
                 os.makedirs(str(path))
                 with open(name, 'wb') as out:
                     out.write(data)
-            response = update_sport(name, result["name"])
+            response = update_main_tasks(name, result["name"])
         else:
             data = message.text
-            response = update_sport(data, result["name"])
+            response = update_main_tasks(data, result["name"])
 
         if response:
             try:
-                data = result['sport'] + scores["Тренировка"]
+                data = result['main_tasks'] + task_score
                 element = {
                     "$set": {
-                        'sport': data
+                        'main_tasks': data
                     }
                 }
                 user_collection.update_one({'_id': result["_id"]}, element)
             except KeyError as e:
                 element = {
                     "$set": {
-                        'sport': scores["Тренировка"]
+                        'main_tasks': task_score
                     }
                 }
                 user_collection.update_one({'_id': result["_id"]}, element)
             bot.send_message(message.from_user.id,
-                             "Тренировка загружена",
+                             "Задание загружено",
                              reply_markup=keyboard
                              )
         else:
             bot.send_message(message.from_user.id,
-                             "Вы загрузили делали сегодня Тренировка",
+                             "Вы уже делали сегодня основное задание",
                              reply_markup=keyboard
                              )

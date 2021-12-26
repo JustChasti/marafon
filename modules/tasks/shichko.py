@@ -31,7 +31,7 @@ def shichko(message):
     button2 = types.KeyboardButton('Здоровье')
     button3 = types.KeyboardButton('Статистика')
     keyboard.add(button1, button2, button3)
-
+    path = f'user-data/{message.from_user.id}'
     result = user_collection.find_one({'telegram_id': message.from_user.id})
     if result["programm"] == "beginer":
         delta = date.today() - start_date
@@ -40,7 +40,6 @@ def shichko(message):
             fileID = message.photo[-1].file_id
             file_info = bot.get_file(fileID)
             data = bot.download_file(file_info.file_path)
-            path = message.from_user.id
             name = f'{path}/{date.today()}-shichko.jpg'
             try:
                 with open(name, 'wb') as out:
@@ -96,7 +95,6 @@ def shichko(message):
             fileID = message.photo[-1].file_id
             file_info = bot.get_file(fileID)
             data = bot.download_file(file_info.file_path)
-            path = message.from_user.id
             name = f'{path}/{date.today()}-shichko.jpg'
             try:
                 with open(name, 'wb') as out:
