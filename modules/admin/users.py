@@ -355,7 +355,6 @@ def send_to_potok(message, data, admin_panel):
                 bot.send_message(
                     i["telegram_id"],
                     message.text,
-                    reply_markup=keyboard_admin
                 )
             except Exception as e:
                 logger.exception(e)
@@ -371,6 +370,11 @@ def send_to_potok(message, data, admin_panel):
             str(e),
             reply_markup=keyboard_admin
         )
+    bot.send_message(
+        message.from_user.id,
+        message.text,
+        reply_markup=keyboard_admin
+    )
     bot.register_next_step_handler(message, admin_panel)
 
 

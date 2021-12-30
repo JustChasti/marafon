@@ -6,6 +6,19 @@ from modules.admin.users import add_to_user, get_beginer_week_table, get_potok_t
 from modules.keyboards import keyboard_admin
 
 
+def default_wrapper(function):
+    def wrapper(message):
+        if message.text == 'Назад':
+            bot.send_message(message.from_user.id,
+                            "Назад",
+                            reply_markup=keyboard_admin
+                            )
+            bot.register_next_step_handler(message, admin_panel)
+        else:
+            function(message)
+    return wrapper
+
+
 def admin_panel(message):
     keyboard_back = types.ReplyKeyboardMarkup(resize_keyboard=True)
     button = types.KeyboardButton('Назад')
@@ -77,95 +90,47 @@ def admin_panel(message):
                         )
 
 
+@default_wrapper
 def get_user_tasks(message):
-    if message.text == 'Назад':
-        bot.send_message(message.from_user.id,
-                        "Назад",
-                        reply_markup=keyboard_admin
-                        )
-        bot.register_next_step_handler(message, admin_panel)
-    else:
-        get_tasks_user(message, message.text, admin_panel)
+    get_tasks_user(message, message.text, admin_panel)
 
 
+@default_wrapper
 def get_table_tasks(message):
-    if message.text == 'Назад':
-        bot.send_message(message.from_user.id,
-                        "Назад",
-                        reply_markup=keyboard_admin
-                        )
-        bot.register_next_step_handler(message, admin_panel)
-    else:
         get_tasks_table(message, message.text, admin_panel)
 
 
+@default_wrapper
 def add_balls(message):
-    if message.text == 'Назад':
-        bot.send_message(message.from_user.id,
-                        "Назад",
-                        reply_markup=keyboard_admin
-                        )
-        bot.register_next_step_handler(message, admin_panel)
-    else:
-        add_to_user(message, message.text, admin_panel)
+    add_to_user(message, message.text, admin_panel)
 
 
+@default_wrapper
 def get_x_table(message):
-    if message.text == 'Назад':
-        bot.send_message(message.from_user.id,
-                        "Назад",
-                        reply_markup=keyboard_admin
-                        )
-        bot.register_next_step_handler(message, admin_panel)
-    else:
-        get_potok_table(message, message.text, admin_panel)
+    get_potok_table(message, message.text, admin_panel)
 
 
+@default_wrapper
 def up_main_tasks(message):
-    if message.text == 'Назад':
-        bot.send_message(message.from_user.id,
-                        "Назад",
-                        reply_markup=keyboard_admin
-                        )
-        bot.register_next_step_handler(message, admin_panel)
-    else:
-        up_potok_main(message, admin_panel)
+    up_potok_main(message, admin_panel)
 
 
+@default_wrapper
 def up_excel(message):
-    if message.text == 'Назад':
-        bot.send_message(message.from_user.id,
-                        "Назад",
-                        reply_markup=keyboard_admin
-                        )
-        bot.register_next_step_handler(message, admin_panel)
-    else:
-        up_to_excel(message, admin_panel)
+    up_to_excel(message, admin_panel)
 
 
+@default_wrapper
 def get_potok(message):
-    if message.text == 'Назад':
-        bot.send_message(message.from_user.id,
-                        "Назад",
-                        reply_markup=keyboard_admin
-                        )
-        bot.register_next_step_handler(message, admin_panel)
-    else:
-        bot.send_message(message.from_user.id,
-                        "Введите сообщение"
-                        )
-        bot.register_next_step_handler(message, send_to_potok, message.text, admin_panel)
+    bot.send_message(message.from_user.id,
+                    "Введите сообщение"
+                    )
+    bot.register_next_step_handler(message, send_to_potok, message.text, admin_panel)
 
 
+@default_wrapper
 def get_photo(message):
-    if message.text == 'Назад':
-        bot.send_message(message.from_user.id,
-                        "Назад",
-                        reply_markup=keyboard_admin
-                        )
-        bot.register_next_step_handler(message, admin_panel)
-    else:
-        get_photo_by_data(message, message.text, admin_panel)
+    get_photo_by_data(message, message.text, admin_panel)
 
 
 def chek_password(message):
