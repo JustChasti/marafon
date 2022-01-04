@@ -8,7 +8,8 @@ from keyboards import keyboard_mind
 def update_book(data, user_name):
     element = {
         'user': user_name,
-        'data': data
+        'data': data,
+        'date': str(date.today())
 
     }
     books_collection.insert_one(element)
@@ -40,7 +41,7 @@ def book(message):
         delta = date.today() - start_date
         delta = int(delta.days)
         data = message.text
-        update_book(data, message.from_user.id)
+        update_book(data, result["name"])
 
         if delta < 7:
             week = 'week 1'
@@ -77,7 +78,7 @@ def book(message):
         delta = date.today() - start_date
         delta = int(delta.days)
         data = message.text
-        update_book(data, message.from_user.id)
+        update_book(data, result["name"])
         try:
             data = result['book'] + scores["Книга"]
             element = {

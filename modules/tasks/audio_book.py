@@ -40,7 +40,7 @@ def audio_book(message):
         delta = date.today() - start_date
         delta = int(delta.days)
         data = message.text
-        update_book(data, message.from_user.id)
+        update_book(data, result["name"])
 
         if delta < 7:
             week = 'week 1'
@@ -77,7 +77,7 @@ def audio_book(message):
         delta = date.today() - start_date
         delta = int(delta.days)
         data = message.text
-        update_book(data, message.from_user.id)
+        update_book(data, result["name"])
         try:
             data = result['audio_book'] + scores["Аудио-книга"]
             element = {

@@ -2,7 +2,7 @@ import os
 from loguru import logger
 import openpyxl
 from db.db import user_collection
-from excel.config import list_name
+from modules.excel.config import list_name
 
 
 def excel_to_mongo(path):

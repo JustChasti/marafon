@@ -2,6 +2,10 @@ from datetime import date
 from db.db import user_collection
 from config import start_date
 from loguru import logger
+import openpyxl
+
+
+excel_path = 'excel/stats.xlsx'
 
 
 def get_beginer_week():
@@ -35,6 +39,10 @@ def get_beginer_stats():
         users = user_collection.find({'programm': 'beginer'})
         for i in users:
             sum = 0
+            try:
+                sum += i['critical']
+            except Exception as e:
+                pass
             for j in i:
                 if 'week' in j:
                     data = i[j]
@@ -73,6 +81,10 @@ def get_all_stats():
             sum = 0
             try:
                 if i['programm'] == 'beginer':
+                    try:
+                        sum += i['critical']
+                    except Exception as e:
+                        pass
                     for j in i:
                         if 'week' in j:
                             data = i[j]
@@ -91,3 +103,28 @@ def get_all_stats():
     except Exception as e:
         logger.exception(e)
     return out_str
+
+
+def my_stats(id):
+    wb = openpyxl.load_workbook(filename=excel_path)
+    sheet = wb.active
+    sheet.title = 'Статистика'
+    user = user_collection.find_one({'telegram_id': id})
+    counter = 1
+    for i in user:
+        if i == '_id':
+            pass
+        elif 'week' in i:
+            counter += 1
+            sheet[f'A{counter}'] = i
+            counter += 1
+            for j in user[i]:
+                sheet[f'B{counter}'] = j
+                sheet[f'C{counter}'] = user[i][j]
+                counter += 1
+        else:
+            sheet[f'A{counter}'] = i
+            sheet[f'B{counter}'] = user[i]
+            counter += 1
+    wb.save(f'excel/{id}.xlsx')
+    return f'excel/{id}.xlsx'

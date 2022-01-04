@@ -3,7 +3,7 @@ from time import sleep
 from pymongo import MongoClient
 from loguru import logger
 
-from db.config import base_domen, base_port, client_name
+from config import base_domen, base_port, client_name
 
 
 while True:
