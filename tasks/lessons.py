@@ -2,26 +2,32 @@ from telebot import types
 from datetime import date
 from db.db import user_collection, lessons_collection
 from config import bot, start_date, scores, regular_tasks
+from keyboards import keyboard_mind
 
 
 def update_lessons(data, user_name):
-    result = lessons_collection.find_one(
-        {
-            'user': user_name,
-            'date': str(date.today())
-        }
-    )
-    if result:
-        return False
-    else:
-        element = {
-            'user': user_name,
-            'date': str(date.today()),
-            'data': data
+    element = {
+        'user': user_name,
+        'date': str(date.today()),
+        'data': data
 
-        }
-        lessons_collection.insert_one(element)
-        return True
+    }
+    lessons_collection.insert_one(element)
+    return True
+
+
+def menu(message):
+    if message.text == 'Подтвердить':
+        bot.send_message(message.from_user.id,
+                         "Прямой Эфир засчитан",
+                         reply_markup=types.ReplyKeyboardRemove()
+                         )
+        stream(message)
+    else:
+        bot.send_message(message.from_user.id,
+                         "Выбери задание",
+                         reply_markup=keyboard_mind
+                         )
 
 
 def stream(message):

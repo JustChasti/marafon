@@ -3,26 +3,32 @@ from telebot import types
 from datetime import date
 from db.db import user_collection, shichko_collection
 from config import bot, start_date, scores, regular_tasks
+from keyboards import keyboard_mind
 
 
 def update_shihcko(data, user_name):
-    result = shichko_collection.find_one(
-        {
-            'user': user_name,
-            'date': str(date.today())
-        }
-    )
-    if result:
-        return False
-    else:
-        element = {
-            'user': user_name,
-            'date': str(date.today()),
-            'data': data
+    element = {
+        'user': user_name,
+        'date': str(date.today()),
+        'data': data
 
-        }
-        shichko_collection.insert_one(element)
-        return True
+    }
+    shichko_collection.insert_one(element)
+    return True
+
+
+def menu(message):
+    if message.text == 'Подтвердить':
+        bot.send_message(message.from_user.id,
+                         "Загрузите Шичко",
+                         reply_markup=types.ReplyKeyboardRemove()
+                         )
+        bot.register_next_step_handler(message, shichko)
+    else:
+        bot.send_message(message.from_user.id,
+                         "Выбери задание",
+                         reply_markup=keyboard_mind
+                         )
 
 
 def shichko(message):
@@ -71,7 +77,6 @@ def shichko(message):
                         week: data
                     }
                 }
-                print("Элемент", element)
                 user_collection.update_one({'_id': result["_id"]}, element)
             except KeyError as e:
                 data_week = regular_tasks

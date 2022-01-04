@@ -6,16 +6,16 @@ from telebot import *
 from db.db import user_collection
 from config import bot
 
-from keyboards import keyboard_mind, keyboard_health, keyboard_main, keyboard_stats_b, keyboard_other, keyboard_programs
+from keyboards import keyboard_mind, keyboard_health, keyboard_main, keyboard_stats_b, keyboard_other, keyboard_programs, keyboard_switch
 from db.stats import get_beginer_week, get_beginer_stats, get_3program_stats, get_all_stats
 
-from tasks.shichko import shichko
-from tasks.thanks import thanks
-from tasks.plans import plans
-from tasks.lessons import stream
-from tasks.book import book
-from tasks.audio_book import audio_book
-from tasks.clean_day import register_clean
+from tasks import shichko
+from tasks import thanks
+from tasks import plans
+from tasks import lessons
+from tasks import book
+from tasks import audio_book
+from tasks import clean_day
 from tasks.fitness_game import game
 from tasks.sport import sport
 from tasks.jogging import run_walk
@@ -60,44 +60,52 @@ def main_chat(message):
 
     elif message.text == 'Шичко':
         bot.send_message(message.from_user.id,
-                         "Загрузите Шичко",
-                         reply_markup=types.ReplyKeyboardRemove()
+                         "Выберете варинт",
+                         reply_markup=keyboard_switch
                          )
-        bot.register_next_step_handler(message, shichko)
+        bot.register_next_step_handler(message, shichko.menu)
 
     elif message.text == 'Благодарности':
         bot.send_message(message.from_user.id,
-                         "Напишите благодарности",
-                         reply_markup=types.ReplyKeyboardRemove()
+                         "Выберете варинт",
+                         reply_markup=keyboard_switch
                          )
-        bot.register_next_step_handler(message, thanks)
+        bot.register_next_step_handler(message, thanks.menu)
 
     elif message.text == 'Планирование':
         bot.send_message(message.from_user.id,
-                         "Напишите планирование",
-                         reply_markup=types.ReplyKeyboardRemove()
+                         "Выберете варинт",
+                         reply_markup=keyboard_switch
                          )
-        bot.register_next_step_handler(message, plans)
+        bot.register_next_step_handler(message, plans.menu)
 
     elif message.text == 'Посещение прямых эфиров':
-        stream(message)
+        bot.send_message(message.from_user.id,
+                         "Выберете варинт",
+                         reply_markup=keyboard_switch
+                         )
+        bot.register_next_step_handler(message, lessons.menu)
 
     elif message.text == 'Книга':
         bot.send_message(message.from_user.id,
-                         "Напишите название книги",
-                         reply_markup=types.ReplyKeyboardRemove()
+                         "Выберете варинт",
+                         reply_markup=keyboard_switch
                          )
-        bot.register_next_step_handler(message, book)
+        bot.register_next_step_handler(message, book.menu)
 
     elif message.text == 'Аудио-книга':
         bot.send_message(message.from_user.id,
-                         "Напишите название книги",
-                         reply_markup=types.ReplyKeyboardRemove()
+                         "Выберете варинт",
+                         reply_markup=keyboard_switch
                          )
-        bot.register_next_step_handler(message, audio_book)
+        bot.register_next_step_handler(message, audio_book.menu)
 
     elif message.text == 'Зарегистрировать чистый день':
-        register_clean(message)
+        bot.send_message(message.from_user.id,
+                         "Выберете варинт",
+                         reply_markup=keyboard_switch
+                         )
+        bot.register_next_step_handler(message, clean_day.menu)
 
     elif message.text == 'Фитнес игра':
         bot.send_message(message.from_user.id,
@@ -144,13 +152,13 @@ def main_chat(message):
                          result,
                          reply_markup=keyboard_main
                          )
-    elif message.text == 'За все среди текущего потока':
+    elif message.text == 'За все среди текущего этапа':
         result = get_3program_stats(message.from_user.id)
         bot.send_message(message.from_user.id,
                          result,
                          reply_markup=keyboard_main
                          )
-    elif message.text == 'Среди всех потоков':
+    elif message.text == 'Среди всех этапов':
         result = get_all_stats()
         bot.send_message(message.from_user.id,
                          result,

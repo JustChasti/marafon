@@ -2,6 +2,7 @@ from telebot import types
 from datetime import date
 from db.db import user_collection, books_collection
 from config import bot, start_date, scores, regular_tasks
+from keyboards import keyboard_mind
 
 
 def update_book(data, user_name):
@@ -12,6 +13,19 @@ def update_book(data, user_name):
     }
     books_collection.insert_one(element)
 
+
+def menu(message):
+    if message.text == 'Подтвердить':
+        bot.send_message(message.from_user.id,
+                         "Напишите название",
+                         reply_markup=types.ReplyKeyboardRemove()
+                         )
+        bot.register_next_step_handler(message, audio_book)
+    else:
+        bot.send_message(message.from_user.id,
+                         "Выбери задание",
+                         reply_markup=keyboard_mind
+                         )
 
 
 def audio_book(message):

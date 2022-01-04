@@ -3,26 +3,32 @@ from telebot import types
 from datetime import date
 from db.db import user_collection, thanks_collection
 from config import bot, start_date, scores, regular_tasks
+from keyboards import keyboard_mind
 
 
 def update_thanks(data, user_name):
-    result = thanks_collection.find_one(
-        {
-            'user': user_name,
-            'date': str(date.today())
-        }
-    )
-    if result:
-        return False
-    else:
-        element = {
-            'user': user_name,
-            'date': str(date.today()),
-            'data': data
+    element = {
+        'user': user_name,
+        'date': str(date.today()),
+        'data': data
 
-        }
-        thanks_collection.insert_one(element)
-        return True
+    }
+    thanks_collection.insert_one(element)
+    return True
+
+
+def menu(message):
+    if message.text == 'Подтвердить':
+        bot.send_message(message.from_user.id,
+                         "Напишите благодарности",
+                         reply_markup=types.ReplyKeyboardRemove()
+                         )
+        bot.register_next_step_handler(message, thanks)
+    else:
+        bot.send_message(message.from_user.id,
+                         "Выбери задание",
+                         reply_markup=keyboard_mind
+                         )
 
 
 def thanks(message):
