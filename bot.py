@@ -7,7 +7,7 @@ from config import bot
 
 from modules import registration
 
-from modules.keyboards import keyboard_mind, keyboard_health, keyboard_main, keyboard_stats_b, keyboard_other, keyboard_switch
+from modules.keyboards import keyboard_mind, keyboard_health, keyboard_main, keyboard_stats_b, keyboard_other, keyboard_switch, keyboard_fit_game
 from modules.statistic.stats import get_beginer_week, get_beginer_stats, get_3program_stats, get_all_stats, my_stats
 
 from modules.tasks import shichko
@@ -17,8 +17,11 @@ from modules.tasks import lessons
 from modules.tasks import book
 from modules.tasks import audio_book
 from modules.tasks import clean_day
+from modules.tasks import videolections, ephirs
+from modules.tasks import shower
+from modules.tasks import maint
 
-from modules.tasks.fitness_game import game
+from modules.tasks import fitness_game
 from modules.tasks.sport import sport
 from modules.tasks.jogging import run_walk
 
@@ -95,6 +98,23 @@ def main_chat(message):
                          )
         bot.register_next_step_handler(message, lessons.menu)
 
+
+    elif message.text == 'Контрастный душ':
+        bot.send_message(message.from_user.id,
+                         "Выберете варинт",
+                         reply_markup=keyboard_switch
+                         )
+        bot.register_next_step_handler(message, shower.menu)
+
+    elif message.text == 'Видеолекции':
+        videolections.spisok(message, 'Выберите вариант')
+
+    elif message.text == 'Эфиры':
+        ephirs.spisok(message, 'Выберите вариант')
+
+    elif message.text == 'Основные':
+        maint.spisok(message, 'Выберите вариант')
+
     elif message.text == 'Книга':
         bot.send_message(message.from_user.id,
                          "Выберете варинт",
@@ -118,10 +138,10 @@ def main_chat(message):
 
     elif message.text == 'Фитнес игра':
         bot.send_message(message.from_user.id,
-                         "Напишите балл за фитнес игру (ТОЛЬКО ЧИСЛО)",
-                         reply_markup=types.ReplyKeyboardRemove()
+                         "Выберите уровень",
+                         reply_markup=keyboard_fit_game  # types.ReplyKeyboardRemove()
                          )
-        bot.register_next_step_handler(message, game)
+        bot.register_next_step_handler(message, fitness_game.game_switch)
 
     elif '#тренировка' in message.text or '#Тренировка' in message.text:
         sport(message)

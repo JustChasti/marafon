@@ -8,7 +8,7 @@ admin_password = 'admin01'
 
 # очки меняются
 scores = {
-    "Шичко": 5,
+    "Шичко": 10,
     "Планирование": 5,
     "Благодарности": 5,
     "Книга": 50,
@@ -18,6 +18,7 @@ scores = {
     "Чистый день 2": 10,
     "Тренировка": 10,
     "Пробежка": 10,
+    "Душ": 5,
     "Прогулка": 5
 }
 
@@ -33,13 +34,61 @@ regular_tasks = {
     'fitness-game': 0,
     'walk': 0,
     'clean_day': 0,
-    'stream': 0
+    'stream': 0,
+    'shower': 0
 }
+
+videolections = [  # beginer, starter, profi, leader
+    {'link': 'https://www.youtube.com/watch?v=k5mCL47KsIo&t=1127s', 'name': 'Музыка', 'date': date(2022, 1, 3)},
+    {'link': 'https://www.youtube.com/watch?v=k5mCL47KsIo&t=1127s', 'name': '12345', 'date': date(2022, 1, 6)}
+]
+
+ephirs = [
+    {'link': 'https://www.youtube.com/watch?v=vgMrsNJRLxo&t=12s', 'name': 'Музыка', 'date': date(2022, 1, 3), 'etap': 'beginer'},
+    {'link': 'https://www.youtube.com/watch?v=k5mCL47KsIo&t=1127s', 'name': '12345', 'date': date(2022, 1, 6), 'etap': 'all'}
+]
+
+fit_games = [
+    'https://www.youtube.com/watch?v=k5mCL47KsIo&t=1127s',
+    'https://www.youtube.com/watch?v=-XcApuUMXI8',
+    'https://www.youtube.com/watch?v=Ld6x_J32s5o',
+    'https://www.youtube.com/watch?v=k5mCL47KsIo&t=1127s',
+    'https://www.youtube.com/watch?v=-XcApuUMXI8',
+    'https://www.youtube.com/watch?v=Ld6x_J32s5o',
+    'https://www.youtube.com/watch?v=k5mCL47KsIo&t=1127s',
+    'https://www.youtube.com/watch?v=-XcApuUMXI8',
+    'https://www.youtube.com/watch?v=Ld6x_J32s5o',
+    'https://www.youtube.com/watch?v=Ld6x_J32s5o'
+]
+
+begin_main = [
+    {'name': 'Название задания 1', 'score': 10, 'date': date(2022, 1, 3)},
+    {'name': 'Название задания 2', 'score': 10, 'date': date(2022, 1, 6)},
+    {'name': 'Название задания 3', 'score': 10, 'date': date(2022, 1, 8)}
+]
+
+start_main = [
+    {'name': 'Название задания X 1', 'score': 10, 'date': date(2022, 1, 3)},
+    {'name': 'Название задания X 2', 'score': 10, 'date': date(2022, 1, 6)},
+    {'name': 'Название задания X 3', 'score': 10, 'date': date(2022, 1, 8)}
+]
+
+leader_main = [
+    {'name': 'Название задания X 1', 'score': 10, 'date': date(2022, 1, 3)},
+    {'name': 'Название задания X 2', 'score': 10, 'date': date(2022, 1, 6)},
+    {'name': 'Название задания X 3', 'score': 10, 'date': date(2022, 1, 8)}
+]
+
+expert_main = [
+    {'name': 'Название задания X 1', 'score': 10, 'date': date(2022, 1, 3)},
+    {'name': 'Название задания X 2', 'score': 10, 'date': date(2022, 1, 6)},
+    {'name': 'Название задания X 3', 'score': 10, 'date': date(2022, 1, 8)}
+]
 
 # дата начала нового потока (потом добавить в админ панель функцию изменения этой штуки)
 start_date = date(2021, 12, 10)
 
-# это часы отправки утренних напоминаний для reminder 
+# это часы отправки утренних напоминаний для reminder
 main_hours = 19
 
 # собсна бот

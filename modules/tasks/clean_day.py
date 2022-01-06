@@ -2,7 +2,7 @@ from telebot import types
 from datetime import date
 from db.db import user_collection, clean_collection
 from config import bot, start_date, scores, regular_tasks
-from keyboards import keyboard_mind
+from modules.keyboards import keyboard_health
 
 
 def update_clean(data, user_name):
@@ -25,7 +25,7 @@ def menu(message):
     else:
         bot.send_message(message.from_user.id,
                          "Выбери задание",
-                         reply_markup=keyboard_mind
+                         reply_markup=keyboard_health
                          )
 
 

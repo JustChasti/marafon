@@ -1,26 +1,21 @@
 from telebot import types
 from datetime import date
-from db.db import user_collection, books_collection
+from db.db import user_collection, lessons_collection
 from config import bot, start_date, scores, regular_tasks
 from modules.keyboards import keyboard_mind
 
 
-def update_book(data, user_name):
-    element = {
-        'user': user_name,
-        'data': data
-
-    }
-    books_collection.insert_one(element)
+def update_lessons(data, user_name):
+    return True
 
 
 def menu(message):
     if message.text == 'Подтвердить':
         bot.send_message(message.from_user.id,
-                         "Напишите название",
+                         "Душ засчитан",
                          reply_markup=types.ReplyKeyboardRemove()
                          )
-        bot.register_next_step_handler(message, audio_book)
+        stream(message)
     else:
         bot.send_message(message.from_user.id,
                          "Выбери задание",
@@ -28,7 +23,7 @@ def menu(message):
                          )
 
 
-def audio_book(message):
+def stream(message):
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
     button1 = types.KeyboardButton('Мышление')
     button2 = types.KeyboardButton('Здоровье')
@@ -40,8 +35,6 @@ def audio_book(message):
         delta = date.today() - start_date
         delta = int(delta.days)
         data = message.text
-        update_book(data, result["name"])
-
         if delta < 7:
             week = 'week 1'
         elif delta < 14:
@@ -52,7 +45,7 @@ def audio_book(message):
             week = 'week 4'
         try:
             data = result[week]
-            data["audio_book"] += scores["Аудио-книга"]
+            data["shower"] += scores["Душ"]
             element = {
                 "$set": {
                     week: data
@@ -61,7 +54,7 @@ def audio_book(message):
             user_collection.update_one({'_id': result["_id"]}, element)
         except KeyError as e:
             data_week = regular_tasks
-            data_week['audio_book'] = scores["Аудио-книга"]
+            data_week['shower'] = scores["Душ"]
             element = {
                 "$set": {
                     week: data_week
@@ -70,7 +63,7 @@ def audio_book(message):
             user_collection.update_one({'_id': result["_id"]}, element)
         bot.send_message(
             message.from_user.id,
-            "Аудио-книга засчитана",
+            "Вы зарегистрировали контрастный душ",
             reply_markup=keyboard
         )
 
@@ -78,23 +71,23 @@ def audio_book(message):
         delta = date.today() - start_date
         delta = int(delta.days)
         data = message.text
-        update_book(data, result["name"])
         try:
-            data = result['audio_book'] + scores["Аудио-книга"]
+            data = result['shower'] + scores["Душ"]
             element = {
                 "$set": {
-                    'audio_book': data
+                    'shower': data
                 }
             }
             user_collection.update_one({'_id': result["_id"]}, element)
         except KeyError as e:
             element = {
                 "$set": {
-                    'audio_book': scores["Аудио-книга"]
+                    'shower': scores["Душ"]
                 }
             }
             user_collection.update_one({'_id': result["_id"]}, element)
-        bot.send_message(message.from_user.id,
-                            "Аудио-книга засчитана",
-                            reply_markup=keyboard
-                            )
+        bot.send_message(
+            message.from_user.id,
+            "Вы зарегистрировали контрастный душ",
+            reply_markup=keyboard
+        )

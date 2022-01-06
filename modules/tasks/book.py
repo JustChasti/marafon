@@ -2,7 +2,7 @@ from telebot import types
 from datetime import date
 from db.db import user_collection, books_collection
 from config import bot, start_date, scores, regular_tasks
-from keyboards import keyboard_mind
+from modules.keyboards import keyboard_mind
 
 
 def update_book(data, user_name):
