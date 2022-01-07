@@ -7,8 +7,11 @@ from config import bot
 
 from modules import registration
 
-from modules.keyboards import keyboard_mind, keyboard_health, keyboard_main, keyboard_stats_b, keyboard_other, keyboard_switch, keyboard_fit_game
-from modules.statistic.stats import get_beginer_week, get_beginer_stats, get_3program_stats, get_all_stats, my_stats
+from modules.keyboards import keyboard_mind, keyboard_health, keyboard_main
+from modules.keyboards import keyboard_stats_b, keyboard_other, keyboard_switch
+from modules.keyboards import keyboard_fit_game
+from modules.statistic.stats import get_beginer_week, get_beginer_stats
+from modules.statistic.stats import get_3program_stats, get_all_stats, my_stats
 
 from modules.tasks import shichko
 from modules.tasks import thanks
@@ -29,7 +32,11 @@ from modules.reminder.fileworker import main_tasks_worker
 
 from modules.admin.admin import chek_password
 
+from try_wrapper import try_wrapper
+
+
 @bot.message_handler(commands=['help', 'start'])
+@try_wrapper
 def start_chat(message):
     result = user_collection.find_one({'telegram_id': message.from_user.id})
     if result:
@@ -44,6 +51,7 @@ def start_chat(message):
 
 
 @bot.message_handler(commands=['admin'])
+@try_wrapper
 def start_chat(message):
     bot.send_message(message.from_user.id,
                      "Введите пароль"
@@ -52,6 +60,7 @@ def start_chat(message):
 
 
 @bot.message_handler(content_types=['text'])
+@try_wrapper
 def main_chat(message):
     result = user_collection.find_one({'telegram_id': message.from_user.id})
     if not result:
@@ -98,7 +107,6 @@ def main_chat(message):
                          )
         bot.register_next_step_handler(message, lessons.menu)
 
-
     elif message.text == 'Контрастный душ':
         bot.send_message(message.from_user.id,
                          "Выберете варинт",
@@ -139,7 +147,7 @@ def main_chat(message):
     elif message.text == 'Фитнес игра':
         bot.send_message(message.from_user.id,
                          "Выберите уровень",
-                         reply_markup=keyboard_fit_game  # types.ReplyKeyboardRemove()
+                         reply_markup=keyboard_fit_game
                          )
         bot.register_next_step_handler(message, fitness_game.game_switch)
 
@@ -196,14 +204,10 @@ def main_chat(message):
 
     elif message.text == 'Моя статистика':
         result = my_stats(message.from_user.id)
-        doc = open(result, 'rb')
-        bot.send_document(
-            message.from_user.id,
-            doc,
-            reply_markup=keyboard_main
-        )
-        doc.close()
-        remove(f'excel/{message.from_user.id}.xlsx')
+        bot.send_message(message.from_user.id,
+                         result,
+                         reply_markup=keyboard_main
+                         )
 
     elif message.text == 'Вывод монги':
         users = user_collection.find({})
@@ -215,6 +219,7 @@ def main_chat(message):
 
 
 @bot.message_handler(content_types=['photo'])
+@try_wrapper
 def sport_photo(message):
     try:
         if '#тренировка' in message.caption or '#Тренировка' in message.caption:

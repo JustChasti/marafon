@@ -13,39 +13,45 @@ def main_tasks_worker():
     while True:
         users = user_collection.find({})
         if datetime.now().time().hour == main_tasks_time.hour:
-            for i in users:
-                task = 0
-                try:
-                    if i["programm"] == "beginer":
-                        f = open('modules/reminder/data/beginer_tasks.txt', 'r', encoding="utf8")
-                    elif i["programm"] == "start":
-                        f = open('modules/reminder/data/start_tasks.txt', 'r', encoding="utf8")
-                    elif i["programm"] == "profi":
-                        f = open('modules/reminder/data/expert_tasks.txt', 'r', encoding="utf8")
-                    elif i["programm"] == "leader":
-                        f = open('modules/reminder/data/leader_tasks.txt', 'r', encoding="utf8")
-                    s = ''
-                    for line in f:
-                        if '~' in line:
-                            if task == counter:
-                                tail = line[1:]
-                                if s in tail:
-                                    keyboard = types.InlineKeyboardMarkup()
-                                    button1 = types.InlineKeyboardButton('Сдать задание', callback_data=f"mt/{counter}.{line[1:]}")
-                                    keyboard.add(button1)
-                                    bot.send_message(i["telegram_id"], s, reply_markup=keyboard)
-                                else:
+            try:
+                for i in users:
+                    task = 0
+                    try:
+                        if i["programm"] == "beginer":
+                            f = open('modules/reminder/data/beginer_tasks.txt', 'r', encoding="utf8")
+                        elif i["programm"] == "start":
+                            f = open('modules/reminder/data/start_tasks.txt', 'r', encoding="utf8")
+                        elif i["programm"] == "profi":
+                            f = open('modules/reminder/data/expert_tasks.txt', 'r', encoding="utf8")
+                        elif i["programm"] == "leader":
+                            f = open('modules/reminder/data/leader_tasks.txt', 'r', encoding="utf8")
+                        s = ''
+                        for line in f:
+                            if '~' in line:
+                                if task == counter:
                                     bot.send_message(i["telegram_id"], s)
-                            elif task > counter:
-                                break
-                            s = ''
-                            task += 1
-                        else:
-                            s += line
-                except Exception as e:
-                    logger.exception(e)
-            counter += 1
-            time.sleep(70000)
+                                    """
+                                    tail = line[1:]
+                                    if s in tail:
+                                        keyboard = types.InlineKeyboardMarkup()
+                                        button1 = types.InlineKeyboardButton('Сдать задание', callback_data=f"mt/{counter}.{line[1:]}")
+                                        keyboard.add(button1)
+                                        bot.send_message(i["telegram_id"], s, reply_markup=keyboard)
+                                    else:
+                                        bot.send_message(i["telegram_id"], s)
+                                    """
+                                elif task > counter:
+                                    break
+                                s = ''
+                                task += 1
+                            else:
+                                s += line
+                    except Exception as e:
+                        logger.exception(e)
+                counter += 1
+                time.sleep(70000)
+            except Exception as e:
+                bot.send_message(362340468, str(e))
         else:
             if datetime.now().time() < main_tasks_time:
                 push = datetime.now()

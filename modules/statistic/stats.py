@@ -105,7 +105,7 @@ def get_all_stats():
     return out_str
 
 
-def my_stats(id):
+def my_stats_excel(id):
     wb = openpyxl.load_workbook(filename=excel_path)
     sheet = wb.active
     sheet.title = 'Статистика'
@@ -128,3 +128,21 @@ def my_stats(id):
             counter += 1
     wb.save(f'excel/{id}.xlsx')
     return f'excel/{id}.xlsx'
+
+
+def my_stats(id):
+    user = user_collection.find_one({'telegram_id': id})
+    counter = 1
+    out_str = ''
+    for i in user:
+        if i == '_id':
+            pass
+        elif 'week' in i:
+            out_str += str(i)
+            out_str += '\n'
+            for j in user[i]:
+                out_str += f'{j} - {user[i][j]}\n'
+        else:
+            if  i != '_id' and  i != 'programm':
+                out_str += f'{i} - {user[i]}\n'
+    return out_str
