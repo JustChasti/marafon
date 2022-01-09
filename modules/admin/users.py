@@ -341,15 +341,20 @@ def send_to_potok(message, data, admin_panel):
     try:
         if data == 'Новичок':
             programm = 'beginer'
+            users = user_collection.find({'programm': programm})
         elif data == 'Старт':
             programm = 'start'
+            users = user_collection.find({'programm': programm})
         elif data == 'Лидер':
             programm = 'leader'
+            users = user_collection.find({'programm': programm})
         elif data == 'Эксперт':
             programm = 'profi'
+            users = user_collection.find({'programm': programm})
+        elif data == 'Все':
+            users = user_collection.find({})
         else:
             raise table_does_not_exist('Такой таблицы нет')
-        users = user_collection.find({'programm': programm})
         for i in users:
             try:
                 bot.send_message(

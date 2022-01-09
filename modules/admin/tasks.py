@@ -1,5 +1,7 @@
 from os import remove
+from datetime import date, datetime
 from loguru import logger
+from telebot import types
 from db.db import user_collection
 from db.db import main_collection, run_walk_collection, sport_collection, books_collection, plans_collection, thanks_collection, shichko_collection
 from config import bot
@@ -11,20 +13,23 @@ excel_path = 'modules/excel/data/stats.xlsx'
 
 
 def collectoin_out(message, collection, c_name):
-    bot.send_message(message.from_user.id,
-                    c_name,
-                    )
+    bot.send_message(
+        message.from_user.id,
+        c_name,
+    )
     for i in collection:
         if '.jpg' in i['data']:
             img = open(i['data'], 'rb')
-            bot.send_photo(message.from_user.id,
-                            img,
-                            )
+            bot.send_photo(
+                message.from_user.id,
+                img,
+            )
             img.close()
         else:
-            bot.send_message(message.from_user.id,
-                            i['data'],
-                            )
+            bot.send_message(
+                message.from_user.id,
+                i['data'],
+            )
 
 
 def table_to_excel(message, collection, c_name, admin_panel):
@@ -43,16 +48,14 @@ def table_to_excel(message, collection, c_name, admin_panel):
         counter += 1
     wb.save(f'modules/excel/data/{c_name}.xlsx')
     doc = open(f'modules/excel/data/{c_name}.xlsx', 'rb')
-    bot.send_document(message.from_user.id,
-                        doc,
-                        reply_markup=keyboard_admin
-                        )
+    bot.send_document(
+        message.from_user.id,
+        doc,
+        reply_markup=keyboard_admin
+    )
     doc.close()
     remove(f'modules/excel/data/{c_name}.xlsx')
     bot.register_next_step_handler(message, admin_panel)
-
-
-
 
 
 def get_tasks_user(message, name, admin_panel):
@@ -80,19 +83,22 @@ def get_tasks_user(message, name, admin_panel):
             data = shichko_collection.find({'user': name})
             collectoin_out(message, data, 'шичко')
         else:
-            bot.send_message(message.from_user.id,
-                            'такого пользователя нет',
-                            )
+            bot.send_message(
+                message.from_user.id,
+                'такого пользователя нет',
+            )
     except Exception as e:
         logger.exception(e)
-        bot.send_message(message.from_user.id,
-                            str(e),
-                            )
+        bot.send_message(
+            message.from_user.id,
+            str(e),
+        )
 
-    bot.send_message(message.from_user.id,
-                        "Вывел все задания что были",
-                        reply_markup=keyboard_admin
-                        )
+    bot.send_message(
+        message.from_user.id,
+        "Вывел все задания что были",
+        reply_markup=keyboard_admin
+    )
     bot.register_next_step_handler(message, admin_panel)
 
 
@@ -107,12 +113,54 @@ def get_tasks_table(message, name, admin_panel):
             'Пробежки': run_walk_collection,
             'Основные': main_collection,
         }
-        table_to_excel(message, task_dict[name], name, admin_panel)
-
+        # table_to_excel(message, task_dict[name], name, admin_panel)
+        data = task_dict[name].find({})
+        bot.send_message(
+            message.from_user.id,
+            "Введите период например (01.01.22-02.02.22)",
+            reply_markup=types.ReplyKeyboardRemove()
+        )
+        bot.register_next_step_handler(message, period_handler, data, admin_panel)
     except Exception as e:
         logger.exception(e)
-        bot.send_message(message.from_user.id,
-                            'Такой таблицы нет',
+        bot.send_message(
+            message.from_user.id,
+            'Такой таблицы нет',
+            reply_markup=keyboard_admin
+        )
+        bot.register_next_step_handler(message, admin_panel)
+
+
+def period_handler(message, task, admin_panel):
+    try:
+        data = message.text.split('-')
+        begin = datetime.strptime(data[0], '%d.%m.%y').date()
+        end = datetime.strptime(data[1], '%d.%m.%y').date()
+        for i in task:
+            try:
+                task_date = datetime.strptime(i['date'], '%Y-%m-%d').date()
+                if task_date >= begin and task_date <= end:
+                    if 'user-data' in i['data']:
+                        img = open(i['data'], 'rb')
+                        bot.send_photo(
+                            message.from_user.id,
+                            img,
                             reply_markup=keyboard_admin
-                            )
+                        )
+                        img.close()
+                    else:
+                        bot.send_message(
+                            message.from_user.id,
+                            i['data'],
+                            reply_markup=keyboard_admin
+                        )
+            except Exception as e:
+                logger.exception(e)
+    except Exception as e:
+        bot.send_message(
+            message.from_user.id,
+            'Ошибка в периоде',
+            reply_markup=keyboard_admin
+        )
+        logger.exception(e)
         bot.register_next_step_handler(message, admin_panel)

@@ -31,10 +31,11 @@ def admin_panel(message):
                         )
         bot.register_next_step_handler(message, get_user_tasks)
     elif message.text == 'Просмотр таблицы заданий типа ["Y"]':
-        bot.send_message(message.from_user.id,
-                        "Введите название таблицы одно из ('Шичко', 'Благодарности', 'Планирование', 'Книги', 'Тренировки', 'Пробежки', 'Основные')",
-                        reply_markup=keyboard_back
-                        )
+        bot.send_message(
+            message.from_user.id,
+            "Введите название таблицы одно из ('Шичко', 'Благодарности', 'Планирование', 'Книги', 'Тренировки', 'Пробежки', 'Основные')",
+            reply_markup=keyboard_back
+        )
         bot.register_next_step_handler(message, get_table_tasks)
 
     elif message.text == 'Добавить или отнять ["Y"] баллов у пользователя ["X"]':
@@ -70,24 +71,27 @@ def admin_panel(message):
         bot.register_next_step_handler(message, up_excel)
 
     elif message.text == 'Отправить сообщение для потока ["X"]':
-        bot.send_message(message.from_user.id,
-                        "Введите название потока",
-                        reply_markup=keyboard_back
-                        )
+        bot.send_message(
+            message.from_user.id,
+            "Введите название потока",
+            reply_markup=keyboard_back
+        )
         bot.register_next_step_handler(message, get_potok)
-    
+
     elif message.text == 'Скачать фото':
-        bot.send_message(message.from_user.id,
-                        "Введите адрес фото из таблицы",
-                        reply_markup=keyboard_back
-                        )
+        bot.send_message(
+            message.from_user.id,
+            "Введите адрес фото из таблицы",
+            reply_markup=keyboard_back
+        )
         bot.register_next_step_handler(message, get_photo)
 
     else:
-        bot.send_message(message.from_user.id,
-                        message.text,
-                        reply_markup=keyboard_back
-                        )
+        bot.send_message(
+            message.from_user.id,
+            message.text,
+            reply_markup=keyboard_back
+        )
 
 
 @default_wrapper
@@ -122,9 +126,10 @@ def up_excel(message):
 
 @default_wrapper
 def get_potok(message):
-    bot.send_message(message.from_user.id,
-                    "Введите сообщение"
-                    )
+    bot.send_message(
+        message.from_user.id,
+        "Введите сообщение"
+    )
     bot.register_next_step_handler(message, send_to_potok, message.text, admin_panel)
 
 
@@ -136,10 +141,11 @@ def get_photo(message):
 def chek_password(message):
     try:
         if message.text == admin_password:
-            bot.send_message(message.from_user.id,
-                            "Пароль верен",
-                            reply_markup=keyboard_admin
-                            )
+            bot.send_message(
+                message.from_user.id,
+                "Пароль верен",
+                reply_markup=keyboard_admin
+            )
             bot.register_next_step_handler(message, admin_panel)
         else:
             bot.send_message(message.from_user.id,
