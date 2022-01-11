@@ -7,9 +7,13 @@ from config import bot, main_hours, start_date
 from db.db import user_collection
 
 
+work_flag = True
+
+
 def main_tasks_worker():
     counter = 0
     main_tasks_time = ddtime(main_hours)
+    print('запущен')
     while True:
         users = user_collection.find({})
         if datetime.now().time().hour == main_tasks_time.hour and datetime.now().date() >= start_date:
@@ -53,6 +57,18 @@ def main_tasks_worker():
             except Exception as e:
                 bot.send_message(362340468, str(e))
         else:
+            f = open('modules/reminder/data/data.txt', 'r', encoding="utf8")
+            falg = False
+            for i in f:
+                if i == '0':
+                    flag = True
+            f.close()
+            f = open('modules/reminder/data/data.txt', 'w', encoding="utf8")
+            f.write("1")
+            f.close()
+            if flag:
+                print('поток остановлен')
+                break
             if datetime.now().time() < main_tasks_time:
                 push = datetime.now()
                 push = push.replace(hour=main_hours, minute=0, second=0, microsecond=0)
@@ -63,7 +79,8 @@ def main_tasks_worker():
                 push += timedelta(days=1)
                 delta = push - datetime.now()
             print(delta.seconds)
-            time.sleep(delta.seconds)
+            time.sleep(30)
+            # time.sleep(delta.seconds)
 
 
 if __name__ == "__main__":

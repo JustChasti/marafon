@@ -86,10 +86,10 @@ expert_main = [
 ]
 
 # дата начала нового потока (потом добавить в админ панель функцию изменения этой штуки)
-start_date = date(2022, 1, 12)
+start_date = date(2022, 1, 11)
 
 # это часы отправки утренних напоминаний для reminder
-main_hours = 8
+main_hours = 19
 
 # собсна бот
 bot = telebot.TeleBot(token)
@@ -111,6 +111,6 @@ link = 'docker attach sayno_bot'
 
     имя клиента и имя коллекции настроить под себя
 """
-base_domen = "localhost"
+base_domen = "saynomongo"
 base_port = 27017
 client_name = 'saynotes'

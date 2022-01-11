@@ -88,7 +88,7 @@ def admin_panel(message):
     elif message.text == 'Очистить данные (перед запускам нового потока)':
         bot.send_message(
             message.from_user.id,
-            "эта функция временно не работает"  # "Вы уверены? Будут удалены все фото пользователей, данные из базы и установлена новая дата начала потока введите ее в формате dd.mm.YYYY",
+            "Вы уверены? Будут удалены все фото пользователей, перезапущена отправка заданий, данные из базы и установлена новая дата начала потока введите ее в формате dd.mm.YYYY",
             reply_markup=keyboard_back
         )
         bot.register_next_step_handler(message, get_photo)
@@ -108,7 +108,7 @@ def get_user_tasks(message):
 
 @default_wrapper
 def get_table_tasks(message):
-        get_tasks_table(message, message.text, admin_panel)
+    get_tasks_table(message, message.text, admin_panel)
 
 
 @default_wrapper

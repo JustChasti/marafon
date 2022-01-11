@@ -154,6 +154,7 @@ def period_handler(message, task, admin_panel):
                             i['data'],
                             reply_markup=keyboard_admin
                         )
+                        bot.register_next_step_handler(message, admin_panel)
             except Exception as e:
                 logger.exception(e)
     except Exception as e:
