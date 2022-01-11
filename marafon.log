@@ -1,0 +1,282 @@
+2022-01-09 15:18:59.999 | ERROR    | modules.admin.users:get_beginer_week_table:109 - 'shower'
+Traceback (most recent call last):
+
+  File "E:\python\lib\threading.py", line 930, in _bootstrap
+    self._bootstrap_inner()
+    |    -> <function Thread._bootstrap_inner at 0x000001E008344C10>
+    -> <WorkerThread(WorkerThread1, started daemon 12852)>
+
+  File "E:\python\lib\threading.py", line 973, in _bootstrap_inner
+    self.run()
+    |    -> <function WorkerThread.run at 0x000001E00A7B7040>
+    -> <WorkerThread(WorkerThread1, started daemon 12852)>
+
+  File "E:\python\lib\site-packages\telebot\util.py", line 82, in run
+    task(*args, **kwargs)
+    |     |       -> {}
+    |     -> (<telebot.types.Message object at 0x000001E01223B250>,)
+    -> <function admin_panel at 0x000001E012233790>
+
+  File "e:\code\marafon\modules\admin\admin.py", line 48, in admin_panel
+    get_beginer_week_table(message, message.text, admin_panel)
+    |                      |        |       |     -> <function admin_panel at 0x000001E012233790>
+    |                      |        |       -> 'Выгрузить таблицу текущей недели(у новичков)'
+    |                      |        -> <telebot.types.Message object at 0x000001E01223B250>
+    |                      -> <telebot.types.Message object at 0x000001E01223B250>
+    -> <function get_beginer_week_table at 0x000001E0122333A0>
+
+> File "e:\code\marafon\modules\admin\users.py", line 101, in get_beginer_week_table
+    sheet[f'K{row}'] =  data['shower']
+    |                   -> {'shichko': 0, 'planning': 0, 'thanks': 0, 'main_tasks': 10, 'book': 0, 'audio_book': 0, 'analyzes': 0, 'sport': 0, 'jogging'...
+    -> <Worksheet "Статистика">
+
+KeyError: 'shower'
+2022-01-09 15:19:00.040 | ERROR    | modules.admin.users:get_beginer_week_table:120 - [Errno 2] No such file or directory: 'modules/excel/data/begins_stat.xlsx'
+Traceback (most recent call last):
+
+  File "E:\python\lib\threading.py", line 930, in _bootstrap
+    self._bootstrap_inner()
+    |    -> <function Thread._bootstrap_inner at 0x000001E008344C10>
+    -> <WorkerThread(WorkerThread1, started daemon 12852)>
+
+  File "E:\python\lib\threading.py", line 973, in _bootstrap_inner
+    self.run()
+    |    -> <function WorkerThread.run at 0x000001E00A7B7040>
+    -> <WorkerThread(WorkerThread1, started daemon 12852)>
+
+  File "E:\python\lib\site-packages\telebot\util.py", line 82, in run
+    task(*args, **kwargs)
+    |     |       -> {}
+    |     -> (<telebot.types.Message object at 0x000001E01223B250>,)
+    -> <function admin_panel at 0x000001E012233790>
+
+  File "e:\code\marafon\modules\admin\admin.py", line 48, in admin_panel
+    get_beginer_week_table(message, message.text, admin_panel)
+    |                      |        |       |     -> <function admin_panel at 0x000001E012233790>
+    |                      |        |       -> 'Выгрузить таблицу текущей недели(у новичков)'
+    |                      |        -> <telebot.types.Message object at 0x000001E01223B250>
+    |                      -> <telebot.types.Message object at 0x000001E01223B250>
+    -> <function get_beginer_week_table at 0x000001E0122333A0>
+
+> File "e:\code\marafon\modules\admin\users.py", line 112, in get_beginer_week_table
+    doc = open('modules/excel/data/begins_stat.xlsx', 'rb')
+
+FileNotFoundError: [Errno 2] No such file or directory: 'modules/excel/data/begins_stat.xlsx'
+2022-01-09 15:20:14.360 | ERROR    | modules.admin.users:get_beginer_week_table:109 - 'shower'
+Traceback (most recent call last):
+
+  File "E:\python\lib\threading.py", line 930, in _bootstrap
+    self._bootstrap_inner()
+    |    -> <function Thread._bootstrap_inner at 0x000001E008344C10>
+    -> <WorkerThread(WorkerThread2, started daemon 11596)>
+
+  File "E:\python\lib\threading.py", line 973, in _bootstrap_inner
+    self.run()
+    |    -> <function WorkerThread.run at 0x000001E00A7B7040>
+    -> <WorkerThread(WorkerThread2, started daemon 11596)>
+
+  File "E:\python\lib\site-packages\telebot\util.py", line 82, in run
+    task(*args, **kwargs)
+    |     |       -> {}
+    |     -> (<telebot.types.Message object at 0x000001E01222B2E0>,)
+    -> <function admin_panel at 0x000001E012233790>
+
+  File "e:\code\marafon\modules\admin\admin.py", line 48, in admin_panel
+    get_beginer_week_table(message, message.text, admin_panel)
+    |                      |        |       |     -> <function admin_panel at 0x000001E012233790>
+    |                      |        |       -> 'Выгрузить таблицу текущей недели(у новичков)'
+    |                      |        -> <telebot.types.Message object at 0x000001E01222B2E0>
+    |                      -> <telebot.types.Message object at 0x000001E01222B2E0>
+    -> <function get_beginer_week_table at 0x000001E0122333A0>
+
+> File "e:\code\marafon\modules\admin\users.py", line 101, in get_beginer_week_table
+    sheet[f'K{row}'] =  data['shower']
+    |                   -> {'shichko': 0, 'planning': 0, 'thanks': 0, 'main_tasks': 10, 'book': 0, 'audio_book': 0, 'analyzes': 0, 'sport': 0, 'jogging'...
+    -> <Worksheet "Статистика">
+
+KeyError: 'shower'
+2022-01-09 15:20:14.480 | ERROR    | modules.admin.users:get_beginer_week_table:120 - A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: file must be non-empty
+Traceback (most recent call last):
+
+  File "E:\python\lib\threading.py", line 930, in _bootstrap
+    self._bootstrap_inner()
+    |    -> <function Thread._bootstrap_inner at 0x000001E008344C10>
+    -> <WorkerThread(WorkerThread2, started daemon 11596)>
+
+  File "E:\python\lib\threading.py", line 973, in _bootstrap_inner
+    self.run()
+    |    -> <function WorkerThread.run at 0x000001E00A7B7040>
+    -> <WorkerThread(WorkerThread2, started daemon 11596)>
+
+  File "E:\python\lib\site-packages\telebot\util.py", line 82, in run
+    task(*args, **kwargs)
+    |     |       -> {}
+    |     -> (<telebot.types.Message object at 0x000001E01222B2E0>,)
+    -> <function admin_panel at 0x000001E012233790>
+
+  File "e:\code\marafon\modules\admin\admin.py", line 48, in admin_panel
+    get_beginer_week_table(message, message.text, admin_panel)
+    |                      |        |       |     -> <function admin_panel at 0x000001E012233790>
+    |                      |        |       -> 'Выгрузить таблицу текущей недели(у новичков)'
+    |                      |        -> <telebot.types.Message object at 0x000001E01222B2E0>
+    |                      -> <telebot.types.Message object at 0x000001E01222B2E0>
+    -> <function get_beginer_week_table at 0x000001E0122333A0>
+
+> File "e:\code\marafon\modules\admin\users.py", line 113, in get_beginer_week_table
+    bot.send_document(message.from_user.id,
+    |   |             |       |         -> 362340468
+    |   |             |       -> <telebot.types.User object at 0x000001E00B680850>
+    |   |             -> <telebot.types.Message object at 0x000001E01222B2E0>
+    |   -> <function TeleBot.send_document at 0x000001E00AB77C10>
+    -> <telebot.TeleBot object at 0x000001E00B603E20>
+
+  File "E:\python\lib\site-packages\telebot\__init__.py", line 1149, in send_document
+    apihelper.send_data(
+    |         -> <function send_data at 0x000001E00AB67B80>
+    -> <module 'telebot.apihelper' from 'E:\\python\\lib\\site-packages\\telebot\\apihelper.py'>
+
+  File "E:\python\lib\site-packages\telebot\apihelper.py", line 856, in send_data
+    return _make_request(token, method_url, params=payload, files=files, method='post')
+           |             |      |                  |              -> {'document': <_io.BufferedReader name='modules/excel/data/begins_stat.xlsx'>}
+           |             |      |                  -> {'chat_id': 362340468, 'reply_markup': '{"keyboard": [[{"text": "\\u041f\\u0440\\u043e\\u0441\\u043c\\u043e\\u0442\\u0440 \\u...
+           |             |      -> 'sendDocument'
+           |             -> '2134782586:AAFPXNhYXej4giO8LQfHjAztQ7S0o2cKhUQ'
+           -> <function _make_request at 0x000001E00A7BBEE0>
+
+  File "E:\python\lib\site-packages\telebot\apihelper.py", line 145, in _make_request
+    json_result = _check_result(method_name, result)
+                  |             |            -> <Response [400]>
+                  |             -> 'sendDocument'
+                  -> <function _check_result at 0x000001E00A7BBF70>
+
+  File "E:\python\lib\site-packages\telebot\apihelper.py", line 172, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+          |                    |            |       -> {'ok': False, 'error_code': 400, 'description': 'Bad Request: file must be non-empty'}
+          |                    |            -> <Response [400]>
+          |                    -> 'sendDocument'
+          -> <class 'telebot.apihelper.ApiTelegramException'>
+
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: file must be non-empty
+2022-01-10 19:27:13.939 | ERROR    | modules.admin.users:get_potok_table:252 - Такой таблицы нет
+Traceback (most recent call last):
+
+  File "E:\python\lib\threading.py", line 930, in _bootstrap
+    self._bootstrap_inner()
+    |    -> <function Thread._bootstrap_inner at 0x0000018CB8354C10>
+    -> <WorkerThread(WorkerThread2, started daemon 7200)>
+
+  File "E:\python\lib\threading.py", line 973, in _bootstrap_inner
+    self.run()
+    |    -> <function WorkerThread.run at 0x0000018CBA7E7040>
+    -> <WorkerThread(WorkerThread2, started daemon 7200)>
+
+  File "E:\python\lib\site-packages\telebot\util.py", line 82, in run
+    task(*args, **kwargs)
+    |     |       -> {}
+    |     -> (<telebot.types.Message object at 0x0000018CBA8DB190>,)
+    -> <function default_wrapper.<locals>.wrapper at 0x0000018CC2262C10>
+
+  File "e:\code\marafon\modules\admin\admin.py", line 18, in wrapper
+    function(message)
+    |        -> <telebot.types.Message object at 0x0000018CBA8DB190>
+    -> <function get_x_table at 0x0000018CC2262B80>
+
+  File "e:\code\marafon\modules\admin\admin.py", line 114, in get_x_table
+    get_potok_table(message, message.text, admin_panel)
+    |               |        |       |     -> <function admin_panel at 0x0000018CC2262790>
+    |               |        |       -> 'старт'
+    |               |        -> <telebot.types.Message object at 0x0000018CBA8DB190>
+    |               -> <telebot.types.Message object at 0x0000018CBA8DB190>
+    -> <function get_potok_table at 0x0000018CC2262430>
+
+> File "e:\code\marafon\modules\admin\users.py", line 150, in get_potok_table
+    raise table_does_not_exist('Такой таблицы нет')
+          -> <class 'modules.admin.users.table_does_not_exist'>
+
+modules.admin.users.table_does_not_exist: Такой таблицы нет
+2022-01-11 17:03:13.189 | ERROR    | modules.admin.reset:reset_config:16 - [WinError 145] Папка не пуста: 'user-data'
+Traceback (most recent call last):
+
+  File "E:\python\lib\threading.py", line 930, in _bootstrap
+    self._bootstrap_inner()
+    |    -> <function Thread._bootstrap_inner at 0x0000024127444C10>
+    -> <WorkerThread(WorkerThread1, started daemon 8800)>
+
+  File "E:\python\lib\threading.py", line 973, in _bootstrap_inner
+    self.run()
+    |    -> <function WorkerThread.run at 0x00000241298C7040>
+    -> <WorkerThread(WorkerThread1, started daemon 8800)>
+
+  File "E:\python\lib\site-packages\telebot\util.py", line 82, in run
+    task(*args, **kwargs)
+    |     |       -> {}
+    |     -> (<telebot.types.Message object at 0x000002413136BCA0>,)
+    -> <function default_wrapper.<locals>.wrapper at 0x000002413132DDC0>
+
+  File "e:\code\marafon\modules\admin\admin.py", line 20, in wrapper
+    function(message)
+    |        -> <telebot.types.Message object at 0x000002413136BCA0>
+    -> <function get_photo at 0x000002413132DD30>
+
+  File "e:\code\marafon\modules\admin\admin.py", line 145, in get_photo
+    reset_config(message, message.text, admin_panel)
+    |            |        |       |     -> <function admin_panel at 0x000002413132D4C0>
+    |            |        |       -> '13.01.2022'
+    |            |        -> <telebot.types.Message object at 0x000002413136BCA0>
+    |            -> <telebot.types.Message object at 0x000002413136BCA0>
+    -> <function reset_config at 0x000002413132D430>
+
+> File "e:\code\marafon\modules\admin\reset.py", line 11, in reset_config
+    os.rmdir('user-data')
+    |  -> <built-in function rmdir>
+    -> <module 'os' from 'E:\\python\\lib\\os.py'>
+
+OSError: [WinError 145] Папка не пуста: 'user-data'
+2022-01-11 17:06:31.833 | ERROR    | modules.admin.reset:reset_config:17 - time data '1' does not match format '%d.%m.%Y'
+Traceback (most recent call last):
+
+  File "E:\python\lib\threading.py", line 930, in _bootstrap
+    self._bootstrap_inner()
+    |    -> <function Thread._bootstrap_inner at 0x000001CD8D254C10>
+    -> <WorkerThread(WorkerThread1, started daemon 4380)>
+
+  File "E:\python\lib\threading.py", line 973, in _bootstrap_inner
+    self.run()
+    |    -> <function WorkerThread.run at 0x000001CD8F6D7040>
+    -> <WorkerThread(WorkerThread1, started daemon 4380)>
+
+  File "E:\python\lib\site-packages\telebot\util.py", line 82, in run
+    task(*args, **kwargs)
+    |     |       -> {}
+    |     -> (<telebot.types.Message object at 0x000001CD971839D0>,)
+    -> <function default_wrapper.<locals>.wrapper at 0x000001CD97140E50>
+
+  File "e:\code\marafon\modules\admin\admin.py", line 20, in wrapper
+    function(message)
+    |        -> <telebot.types.Message object at 0x000001CD971839D0>
+    -> <function get_photo at 0x000001CD97140DC0>
+
+  File "e:\code\marafon\modules\admin\admin.py", line 145, in get_photo
+    reset_config(message, message.text, admin_panel)
+    |            |        |       |     -> <function admin_panel at 0x000001CD97140550>
+    |            |        |       -> '13.01.2022'
+    |            |        -> <telebot.types.Message object at 0x000001CD971839D0>
+    |            -> <telebot.types.Message object at 0x000001CD971839D0>
+    -> <function reset_config at 0x000001CD971404C0>
+
+> File "e:\code\marafon\modules\admin\reset.py", line 14, in reset_config
+    start_date = datetime.strptime(data[0], '%d.%m.%Y').date()
+                 |        |        -> '13.01.2022'
+                 |        -> <method 'strptime' of 'datetime.datetime' objects>
+                 -> <class 'datetime.datetime'>
+
+  File "E:\python\lib\_strptime.py", line 568, in _strptime_datetime
+    tt, fraction, gmtoff_fraction = _strptime(data_string, format)
+                                    |         |            -> '%d.%m.%Y'
+                                    |         -> '1'
+                                    -> <function _strptime at 0x000001CD9718EC10>
+
+  File "E:\python\lib\_strptime.py", line 349, in _strptime
+    raise ValueError("time data %r does not match format %r" %
+
+ValueError: time data '1' does not match format '%d.%m.%Y'

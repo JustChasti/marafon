@@ -1,9 +1,11 @@
 from os import remove
 from threading import Thread
 from loguru import logger
+import loguru
 from telebot import *
 from db.db import user_collection
-from config import bot
+from config import bot, start_date
+from datetime import date, datetime
 
 from modules import registration
 
@@ -63,9 +65,9 @@ def start_chat(message):
 @try_wrapper
 def main_chat(message):
     result = user_collection.find_one({'telegram_id': message.from_user.id})
-    if not result:
+    if not result or datetime.now().date() < start_date:
         bot.send_message(message.from_user.id,
-                         "Вы незарегистрированы"
+                         "Вы незарегистрированы или поток еще не стартовал"
                          )
     elif message.text == 'Мышление':
         bot.send_message(message.from_user.id,
@@ -223,16 +225,38 @@ def main_chat(message):
 def sport_photo(message):
     try:
         if '#тренировка' in message.caption or '#Тренировка' in message.caption:
-            sport(message)
+            result = user_collection.find_one({'telegram_id': message.from_user.id})
+            if not result or datetime.now().date() < start_date:
+                bot.send_message(
+                    message.from_user.id,
+                    "Вы незарегистрированы или поток еще не стартовал"
+                )
+            else:
+                sport(message)
         elif '#пробежка' in message.caption or '#Пробежка' in message.caption:
-            run_walk(message, True)
+            result = user_collection.find_one({'telegram_id': message.from_user.id})
+            if not result or datetime.now().date() < start_date:
+                bot.send_message(
+                    message.from_user.id,
+                    "Вы незарегистрированы или поток еще не стартовал"
+                )
+            else:
+                run_walk(message, True)
         elif '#прогулка' in message.caption or '#Прогулка' in message.caption:
-            run_walk(message, False)
+            result = user_collection.find_one({'telegram_id': message.from_user.id})
+            if not result or datetime.now().date() < start_date:
+                bot.send_message(
+                    message.from_user.id,
+                    "Вы незарегистрированы или поток еще не стартовал"
+                )
+            else:
+                run_walk(message, False)
     except TypeError as e:
         logger.exception(e)
 
 
 try:
+    loguru.logger.add("marafon.log", rotation="200 MB")
     main_tasks_thread = Thread(target=main_tasks_worker)
     main_tasks_thread.start()
     bot.polling(none_stop=True)

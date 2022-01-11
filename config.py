@@ -86,10 +86,10 @@ expert_main = [
 ]
 
 # дата начала нового потока (потом добавить в админ панель функцию изменения этой штуки)
-start_date = date(2021, 12, 10)
+start_date = date(2022, 1, 12)
 
 # это часы отправки утренних напоминаний для reminder
-main_hours = 19
+main_hours = 8
 
 # собсна бот
 bot = telebot.TeleBot(token)

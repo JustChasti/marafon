@@ -3,7 +3,7 @@ from datetime import time as ddtime
 import time
 from loguru import logger
 from telebot import *
-from config import bot, main_hours
+from config import bot, main_hours, start_date
 from db.db import user_collection
 
 
@@ -12,7 +12,7 @@ def main_tasks_worker():
     main_tasks_time = ddtime(main_hours)
     while True:
         users = user_collection.find({})
-        if datetime.now().time().hour == main_tasks_time.hour:
+        if datetime.now().time().hour == main_tasks_time.hour and datetime.now().date() >= start_date:
             try:
                 for i in users:
                     task = 0
