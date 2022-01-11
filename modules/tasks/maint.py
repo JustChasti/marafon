@@ -89,10 +89,10 @@ def m_tasks(message, task_name, task_score):
                 os.makedirs(str(path))
                 with open(name, 'wb') as out:
                     out.write(data)
-            response = update_main_tasks(name, result["name"])
+            response = update_main_tasks(name, result["name"] + ' ' + result["stage"])
         else:
             data = message.text
-            response = update_main_tasks(data, result["name"])
+            response = update_main_tasks(data, result["name"] + ' ' + result["stage"])
 
         if response:
             if delta < 7:
@@ -144,10 +144,10 @@ def m_tasks(message, task_name, task_score):
                 os.makedirs(str(path))
                 with open(name, 'wb') as out:
                     out.write(data)
-            response = update_main_tasks(name, result["name"])
+            response = update_main_tasks(name, result["name"] + ' ' + result["stage"])
         else:
             data = message.text
-            response = update_main_tasks(data, result["name"])
+            response = update_main_tasks(data, result["name"] + ' ' + result["stage"])
 
         if response:
             try:

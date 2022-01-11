@@ -58,7 +58,7 @@ def main_tasks_worker():
                 bot.send_message(362340468, str(e))
         else:
             f = open('modules/reminder/data/data.txt', 'r', encoding="utf8")
-            falg = False
+            flag = False
             for i in f:
                 if i == '0':
                     flag = True

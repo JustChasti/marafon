@@ -137,6 +137,11 @@ def period_handler(message, task, admin_panel):
         begin = datetime.strptime(data[0], '%d.%m.%y').date()
         end = datetime.strptime(data[1], '%d.%m.%y').date()
         for i in task:
+            bot.send_message(
+                message.from_user.id,
+                i['user'],
+                reply_markup=keyboard_admin
+            )
             try:
                 task_date = datetime.strptime(i['date'], '%Y-%m-%d').date()
                 if task_date >= begin and task_date <= end:

@@ -13,9 +13,9 @@ import time
 
 def reset_config(message, data, admin_panel):
     try:
+        start_date = datetime.strptime(data, '%d.%m.%Y').date()
         shutil.rmtree('user-data')
         os.mkdir('user-data')
-        start_date = datetime.strptime(data, '%d.%m.%Y').date()
         bot.send_message(
                 message.from_user.id,
                 "Данные сброшены, новый поток сообщений будет запущен через 24 часа",
