@@ -79,8 +79,7 @@ def main_tasks_worker():
                 push += timedelta(days=1)
                 delta = push - datetime.now()
             print(delta.seconds)
-            time.sleep(30)
-            # time.sleep(delta.seconds)
+            time.sleep(delta.seconds)
 
 
 if __name__ == "__main__":
