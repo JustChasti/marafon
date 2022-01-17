@@ -1,5 +1,6 @@
 import telebot
 from datetime import date
+import datetime
 
 
 # настройки самого бота
@@ -38,16 +39,6 @@ regular_tasks = {
     'shower': 0
 }
 
-videolections = [  # beginer, starter, profi, leader
-    {'link': 'https://www.youtube.com/watch?v=k5mCL47KsIo&t=1127s', 'name': 'Музыка', 'date': date(2022, 1, 3)},
-    {'link': 'https://www.youtube.com/watch?v=k5mCL47KsIo&t=1127s', 'name': '12345', 'date': date(2022, 1, 6)}
-]
-
-ephirs = [
-    {'link': 'https://www.youtube.com/watch?v=vgMrsNJRLxo&t=12s', 'name': 'Музыка', 'date': date(2022, 1, 3), 'etap': 'beginer'},
-    {'link': 'https://www.youtube.com/watch?v=k5mCL47KsIo&t=1127s', 'name': '12345', 'date': date(2022, 1, 6), 'etap': 'all'}
-]
-
 fit_games = [
     'https://www.youtube.com/watch?v=k5mCL47KsIo&t=1127s',
     'https://www.youtube.com/watch?v=-XcApuUMXI8',
@@ -59,30 +50,6 @@ fit_games = [
     'https://www.youtube.com/watch?v=-XcApuUMXI8',
     'https://www.youtube.com/watch?v=Ld6x_J32s5o',
     'https://www.youtube.com/watch?v=Ld6x_J32s5o'
-]
-
-begin_main = [
-    {'name': 'Название задания 1', 'score': 10, 'date': date(2022, 1, 3)},
-    {'name': 'Название задания 2', 'score': 10, 'date': date(2022, 1, 6)},
-    {'name': 'Название задания 3', 'score': 10, 'date': date(2022, 1, 8)}
-]
-
-start_main = [
-    {'name': 'Название задания X 1', 'score': 10, 'date': date(2022, 1, 3)},
-    {'name': 'Название задания X 2', 'score': 10, 'date': date(2022, 1, 6)},
-    {'name': 'Название задания X 3', 'score': 10, 'date': date(2022, 1, 8)}
-]
-
-leader_main = [
-    {'name': 'Название задания X 1', 'score': 10, 'date': date(2022, 1, 3)},
-    {'name': 'Название задания X 2', 'score': 10, 'date': date(2022, 1, 6)},
-    {'name': 'Название задания X 3', 'score': 10, 'date': date(2022, 1, 8)}
-]
-
-expert_main = [
-    {'name': 'Название задания X 1', 'score': 10, 'date': date(2022, 1, 3)},
-    {'name': 'Название задания X 2', 'score': 10, 'date': date(2022, 1, 6)},
-    {'name': 'Название задания X 3', 'score': 10, 'date': date(2022, 1, 8)}
 ]
 
 # дата начала нового потока (потом добавить в админ панель функцию изменения этой штуки)
@@ -111,6 +78,6 @@ link = 'docker attach sayno_bot'
 
     имя клиента и имя коллекции настроить под себя
 """
-base_domen = "saynomongo"
+base_domen = "mongo"
 base_port = 27017
 client_name = 'saynotes'

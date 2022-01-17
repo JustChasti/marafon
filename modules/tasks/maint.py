@@ -1,15 +1,42 @@
 import os
 from telebot import types
 from datetime import date
+import datetime
 from db.db import user_collection, main_collection
-from config import bot, start_date, begin_main, start_main, leader_main, expert_main, regular_tasks
+from config import bot, start_date, regular_tasks
 from modules.keyboards import keyboard_mind
+
+
+def tasks_to_list(name):
+    f = open(f'modules/reminder/data/{name}.txt', 'r', encoding="utf8")
+    tasks = []
+    for line in f:
+        try:
+            data = line.split('~')
+            data[2] = data[2].replace("\n", "")
+            tasks.append(
+                {
+                    'name': data[0],
+                    'score': int(data[1]),
+                    'date':  datetime.datetime.strptime(data[2], '%d.%m.%y').date()
+                }
+            )
+        except Exception as e:
+            pass
+    f.close()
+    return tasks
 
 
 def spisok(message, text):
     result = user_collection.find_one({'telegram_id': message.from_user.id})
     programm = result["programm"]
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+
+    begin_main = tasks_to_list('begin_main')
+    start_main = tasks_to_list('start_main')
+    leader_main = tasks_to_list('leader_main')
+    expert_main = tasks_to_list('expert_main')
+
     if programm == 'beginer':
         data = begin_main
     elif programm == 'start':
@@ -39,6 +66,10 @@ def handler(message, name):
     else:
         result = user_collection.find_one({'telegram_id': message.from_user.id})
         programm = result["programm"]
+        begin_main = tasks_to_list('begin_main')
+        start_main = tasks_to_list('start_main')
+        leader_main = tasks_to_list('leader_main')
+        expert_main = tasks_to_list('expert_main')
         if programm == 'beginer':
             data = begin_main
         elif programm == 'start':

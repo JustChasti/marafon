@@ -69,7 +69,7 @@ button3 = types.KeyboardButton('Добавить или отнять ["Y"] ба�
 button4 = types.KeyboardButton('Выгрузить таблицу текущей недели(у новичков)')
 button5 = types.KeyboardButton('Выгрузить таблицу потока ["X"]')
 button6 = types.KeyboardButton('Выгрузить общую таблицу среди всех потоков')
-button7 = types.KeyboardButton('Загрузить ежедневные задания для потока ["X"]')
+button7 = types.KeyboardButton('Загрузить файл')
 button8 = types.KeyboardButton('Добавить пользователей (Загрузка таблицы excel)')
 button9 = types.KeyboardButton('Отправить сообщение для потока ["X"]')
 keyboard_admin.row(button1, button2, button3)

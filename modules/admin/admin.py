@@ -62,7 +62,7 @@ def admin_panel(message):
     elif message.text == 'Выгрузить общую таблицу среди всех потоков':
         get_all_table(message, message.text, admin_panel)
 
-    elif message.text == 'Загрузить ежедневные задания для потока ["X"]':
+    elif message.text == 'Загрузить файл':
         bot.send_message(
             message.from_user.id,
             "Отправьте файл с задниями",
