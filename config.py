@@ -56,7 +56,7 @@ fit_games = [
 start_date = date(2022, 1, 11)
 
 # это часы отправки утренних напоминаний для reminder
-main_hours = 18
+main_hours = 19
 
 # собсна бот
 bot = telebot.TeleBot(token)

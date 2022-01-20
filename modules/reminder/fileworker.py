@@ -13,7 +13,7 @@ work_flag = True
 def main_tasks_worker():
     counter = 0
     main_tasks_time = ddtime(main_hours)
-    print('запущен')
+    print('запущен Новая версия')
     while True:
         users = user_collection.find({})
         if datetime.now().time().hour == main_tasks_time.hour and datetime.now().date() >= start_date:
