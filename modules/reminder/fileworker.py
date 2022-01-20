@@ -57,6 +57,7 @@ def main_tasks_worker():
             except Exception as e:
                 bot.send_message(362340468, str(e))
         else:
+            logger.info(datetime.now().time().hour, datetime.now().date(), 'условие')
             f = open('modules/reminder/data/data.txt', 'r', encoding="utf8")
             flag = False
             for i in f:
@@ -78,7 +79,7 @@ def main_tasks_worker():
                 push = push.replace(hour=main_hours, minute=0, second=0, microsecond=0)
                 push += timedelta(days=1)
                 delta = push - datetime.now()
-            print(delta.seconds)
+            logger.info(delta.seconds)
             time.sleep(delta.seconds)
 
 
