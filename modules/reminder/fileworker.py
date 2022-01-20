@@ -15,6 +15,7 @@ def main_tasks_worker():
     main_tasks_time = ddtime(main_hours)
     print('запущен Новая версия')
     while True:
+        print('цикл начат')
         users = user_collection.find({})
         if datetime.now().time().hour == main_tasks_time.hour and datetime.now().date() >= start_date:
             print('1 ветка')
@@ -85,6 +86,7 @@ def main_tasks_worker():
                 delta = push - datetime.now()
             print(delta.seconds)
             time.sleep(delta.seconds)
+            time.sleep(1)
 
 
 if __name__ == "__main__":
