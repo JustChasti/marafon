@@ -17,6 +17,7 @@ def main_tasks_worker():
     while True:
         users = user_collection.find({})
         if datetime.now().time().hour == main_tasks_time.hour and datetime.now().date() >= start_date:
+            print('1 ветка')
             try:
                 for i in users:
                     task = 0
@@ -52,12 +53,15 @@ def main_tasks_worker():
                                 s += line
                     except Exception as e:
                         logger.exception(e)
+                        print(e)
                 counter += 1
                 time.sleep(70000)
             except Exception as e:
                 bot.send_message(362340468, str(e))
         else:
+            print('2 ветка')
             logger.info(datetime.now().time().hour, datetime.now().date(), 'условие')
+            print(datetime.now().time().hour, datetime.now().date(), 'условие')
             f = open('modules/reminder/data/data.txt', 'r', encoding="utf8")
             flag = False
             for i in f:
@@ -79,7 +83,7 @@ def main_tasks_worker():
                 push = push.replace(hour=main_hours, minute=0, second=0, microsecond=0)
                 push += timedelta(days=1)
                 delta = push - datetime.now()
-            logger.info(delta.seconds)
+            print(delta.seconds)
             time.sleep(delta.seconds)
 
 
