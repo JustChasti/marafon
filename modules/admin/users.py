@@ -58,94 +58,94 @@ def get_beginer_week_table(message, data, admin_panel):
             week = 'week 3'
         else:
             week = 'week 4'
-            users = user_collection.find({'programm': 'beginer'})
-            row = 2
-            wb = openpyxl.load_workbook(filename=excel_path)
-            sheet = wb.active
-            sheet.title = 'Статистика'
-            sheet[f'A1'] = 'Имя'
-            sheet[f'B1'] = 'Шичко'
-            sheet[f'C1'] = 'Планирование'
-            sheet[f'D1'] = 'Благодарности'
-            sheet[f'E1'] = 'Основные'
-            sheet[f'F1'] = 'Книга'
-            sheet[f'G1'] = 'Аудио книга'
-            sheet[f'H1'] = 'Спорт'
-            sheet[f'I1'] = 'Фитнес игра'
-            sheet[f'J1'] = 'Пробежки прогулки'
-            sheet[f'K1'] = 'Контрастный душ'
-            sheet[f'L1'] = 'Чистые дни'
-            sheet[f'N1'] = 'Прямой эфир'
-            sheet[f'N1'] = 'Общий балл'
-            for i in users:
+        users = user_collection.find({'programm': 'beginer'})
+        row = 2
+        wb = openpyxl.load_workbook(filename=excel_path)
+        sheet = wb.active
+        sheet.title = 'Статистика'
+        sheet[f'A1'] = 'Имя'
+        sheet[f'B1'] = 'Шичко'
+        sheet[f'C1'] = 'Планирование'
+        sheet[f'D1'] = 'Благодарности'
+        sheet[f'E1'] = 'Основные'
+        sheet[f'F1'] = 'Книга'
+        sheet[f'G1'] = 'Аудио книга'
+        sheet[f'H1'] = 'Спорт'
+        sheet[f'I1'] = 'Фитнес игра'
+        sheet[f'J1'] = 'Пробежки прогулки'
+        sheet[f'K1'] = 'Контрастный душ'
+        sheet[f'L1'] = 'Чистые дни'
+        sheet[f'N1'] = 'Прямой эфир'
+        sheet[f'N1'] = 'Общий балл'
+        for i in users:
+            try:
+                data = i[week]
+                sum = 0
+                # sheet[f'A{row}'] = i["name"]
+                # column = 'B'
+                for j in data:
+                    sum += int(data[j])
+                    # sheet[f'{column}{row}'] = data[j]
+                    # column = chr(ord(column) + 1)
+                # sheet[f'{column}{row}'] = sum
                 try:
-                    data = i[week]
-                    sum = 0
-                    # sheet[f'A{row}'] = i["name"]
-                    # column = 'B'
-                    for j in data:
-                        sum += int(data[j])
-                        # sheet[f'{column}{row}'] = data[j]
-                        # column = chr(ord(column) + 1)
-                    # sheet[f'{column}{row}'] = sum
-                    try:
-                        sum += i['critical']
-                    except Exception as e:
-                        pass
-                    sheet[f'N{row}'] = sum
-                    sheet[f'A{row}'] = i['name']
-                    try:
-                        sheet[f'B{row}'] = data['shichko']
-                    except Exception as e:
-                        pass
-                    try:
-                        sheet[f'C{row}'] = data['planning']
-                    except Exception as e:
-                        pass
-                    try:
-                        sheet[f'D{row}'] = data['thanks']
-                    except Exception as e:
-                        pass
-                    try:
-                        sheet[f'E{row}'] = data['main_tasks']
-                    except Exception as e:
-                        pass
-                    try:
-                        sheet[f'F{row}'] = data['book']
-                    except Exception as e:
-                        pass
-                    try:
-                        sheet[f'G{row}'] = data['audio_book']
-                    except Exception as e:
-                        pass
-                    try:
-                        sheet[f'H{row}'] = data['sport']
-                    except Exception as e:
-                        pass
-                    try:
-                        sheet[f'I{row}'] = data['fitness-game']
-                    except Exception as e:
-                        pass
-                    try:
-                        sheet[f'J{row}'] = data['walk']
-                    except Exception as e:
-                        pass
-                    try:
-                        sheet[f'K{row}'] = data['shower']
-                    except Exception as e:
-                        pass
-                    try:
-                        sheet[f'L{row}'] = data['clean_day']
-                    except Exception as e:
-                        pass
-                    try:
-                        sheet[f'M{row}'] = data['stream']
-                    except Exception as e:
-                        pass
-                    row += 1
+                    sum += i['critical']
                 except Exception as e:
                     pass
-            wb.save('modules/excel/data/begins_stat.xlsx')
+                sheet[f'N{row}'] = sum
+                sheet[f'A{row}'] = i['name']
+                try:
+                    sheet[f'B{row}'] = data['shichko']
+                except Exception as e:
+                    pass
+                try:
+                    sheet[f'C{row}'] = data['planning']
+                except Exception as e:
+                    pass
+                try:
+                    sheet[f'D{row}'] = data['thanks']
+                except Exception as e:
+                    pass
+                try:
+                    sheet[f'E{row}'] = data['main_tasks']
+                except Exception as e:
+                    pass
+                try:
+                    sheet[f'F{row}'] = data['book']
+                except Exception as e:
+                    pass
+                try:
+                    sheet[f'G{row}'] = data['audio_book']
+                except Exception as e:
+                    pass
+                try:
+                    sheet[f'H{row}'] = data['sport']
+                except Exception as e:
+                    pass
+                try:
+                    sheet[f'I{row}'] = data['fitness-game']
+                except Exception as e:
+                    pass
+                try:
+                    sheet[f'J{row}'] = data['walk']
+                except Exception as e:
+                    pass
+                try:
+                    sheet[f'K{row}'] = data['shower']
+                except Exception as e:
+                    pass
+                try:
+                    sheet[f'L{row}'] = data['clean_day']
+                except Exception as e:
+                    pass
+                try:
+                    sheet[f'M{row}'] = data['stream']
+                except Exception as e:
+                    pass
+                row += 1
+            except Exception as e:
+                pass
+        wb.save('modules/excel/data/begins_stat.xlsx')
 
         doc = open('modules/excel/data/begins_stat.xlsx', 'rb')
         bot.send_document(
