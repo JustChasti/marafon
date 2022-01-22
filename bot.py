@@ -259,6 +259,11 @@ try:
     loguru.logger.add("marafon.log", rotation="200 MB")
     main_tasks_thread = Thread(target=main_tasks_worker)
     main_tasks_thread.start()
-    bot.polling(none_stop=True)
+    while True:
+        try:
+            logger.info('bot started')
+            bot.polling(none_stop=True)
+        except Exception as e:
+            logger.exception(e)
 except Exception as e:
     logger.exception(e)

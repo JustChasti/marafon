@@ -60,5 +60,6 @@ def reset_config(message, data, admin_panel):
 def mesage_starter():
     logger.info('Запущен еще один поток, который запустит сообщения')
     time.sleep(60*60*24)
+    logger.info(f'Пошло поехало {start_date}')
     main_tasks_thread = threading.Thread(target=main_tasks_worker)
     main_tasks_thread.start()
