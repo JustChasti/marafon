@@ -64,6 +64,7 @@ def start_chat(message):
 @bot.message_handler(content_types=['text'])
 @try_wrapper
 def main_chat(message):
+    logger.info(f'{start_date}')
     result = user_collection.find_one({'telegram_id': message.from_user.id})
     if not result or datetime.now().date() < start_date:
         bot.send_message(message.from_user.id,
