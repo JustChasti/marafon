@@ -84,8 +84,8 @@ def game(message, ball):
             }
             user_collection.update_one({'_id': result["_id"]}, element)
         bot.send_message(message.from_user.id,
-                         "Фитнесс игра засчитана",
-                         reply_markup=keyboard
+                         "Введите время в формате ММ:СС (например 12:05 - 12 минут 5 секунд)",
+                         reply_markup=types.ReplyKeyboardRemove()
                          )
 
     else:
@@ -108,6 +108,21 @@ def game(message, ball):
             }
             user_collection.update_one({'_id': result["_id"]}, element)
         bot.send_message(message.from_user.id,
-                         "Фитнесс игра засчитана",
-                         reply_markup=keyboard
+                         "Введите время в формате ММ:СС (например 12:05 - 12 минут 5 секунд)",
+                         reply_markup=types.ReplyKeyboardRemove()
                          )
+    bot.register_next_step_handler(message, get_time_ball, ball)
+
+
+def get_time_ball(message, ball):
+    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    button1 = types.KeyboardButton('Мышление')
+    button2 = types.KeyboardButton('Здоровье')
+    button3 = types.KeyboardButton('Статистика')
+    keyboard.add(button1, button2, button3)
+    print(message.text)
+    bot.send_message(
+        message.from_user.id,
+        "Вы зарегистрировали фитнес игру",
+        reply_markup=keyboard
+    )
