@@ -3,7 +3,7 @@ from datetime import time as ddtime
 import time
 from loguru import logger
 from telebot import *
-from config import bot, main_hours, start_date
+from config import bot, main_hours
 from db.db import user_collection
 
 
@@ -11,6 +11,11 @@ work_flag = True
 
 
 def main_tasks_worker():
+    f = open('modules/reminder/data/start_date.txt', 'r', encoding="utf8")
+    for i in f:
+        s_date = i
+        break
+    start_date = datetime.strptime(s_date, '%d.%m.%Y').date()
     counter = 0
     main_tasks_time = ddtime(main_hours)
     print('запущен Новая версия')

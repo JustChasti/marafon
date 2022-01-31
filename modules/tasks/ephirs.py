@@ -2,8 +2,9 @@ from telebot import types
 from datetime import date
 import datetime
 from db.db import user_collection, clean_collection
-from config import bot, start_date, scores
+from config import bot, scores
 from modules.keyboards import keyboard_mind, keyboard_mind
+from datetime import datetime
 
 
 def get_ephirs():
@@ -28,6 +29,11 @@ def get_ephirs():
 
 
 def spisok(message, text):
+    f = open('modules/reminder/data/start_date.txt', 'r', encoding="utf8")
+    for i in f:
+        s_date = i
+        break
+    start_date = datetime.strptime(s_date, '%d.%m.%Y').date()
     result = user_collection.find_one({'telegram_id': message.from_user.id})
     programm = result["programm"]
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)

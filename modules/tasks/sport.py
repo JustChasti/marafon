@@ -1,8 +1,8 @@
 import os
 from telebot import types
-from datetime import date
+from datetime import date, datetime
 from db.db import user_collection, sport_collection
-from config import bot, start_date, scores, regular_tasks
+from config import bot, scores, regular_tasks
 
 
 def update_sport(data, user_name):
@@ -26,6 +26,11 @@ def update_sport(data, user_name):
 
 
 def sport(message):
+    f = open('modules/reminder/data/start_date.txt', 'r', encoding="utf8")
+    for i in f:
+        s_date = i
+        break
+    start_date = datetime.strptime(s_date, '%d.%m.%Y').date()
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
     button1 = types.KeyboardButton('Мышление')
     button2 = types.KeyboardButton('Здоровье')

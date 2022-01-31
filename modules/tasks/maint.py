@@ -1,9 +1,9 @@
 import os
 from telebot import types
-from datetime import date
+from datetime import date, datetime
 import datetime
 from db.db import user_collection, main_collection
-from config import bot, start_date, regular_tasks
+from config import bot, regular_tasks
 from modules.keyboards import keyboard_mind
 
 
@@ -28,6 +28,11 @@ def tasks_to_list(name):
 
 
 def spisok(message, text):
+    f = open('modules/reminder/data/start_date.txt', 'r', encoding="utf8")
+    for i in f:
+        s_date = i
+        break
+    start_date = datetime.strptime(s_date, '%d.%m.%Y').date()
     result = user_collection.find_one({'telegram_id': message.from_user.id})
     programm = result["programm"]
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -97,6 +102,11 @@ def update_main_tasks(data, user_name):
 
 
 def m_tasks(message, task_name, task_score):
+    f = open('modules/reminder/data/start_date.txt', 'r', encoding="utf8")
+    for i in f:
+        s_date = i
+        break
+    start_date = datetime.strptime(s_date, '%d.%m.%Y').date()
     path = f'user-data/{message.from_user.id}'
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
     button1 = types.KeyboardButton('Мышление')

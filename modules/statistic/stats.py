@@ -1,14 +1,19 @@
 from datetime import date
 from db.db import user_collection
-from config import start_date
 from loguru import logger
 import openpyxl
+from datetime import datetime
 
 
 excel_path = 'excel/stats.xlsx'
 
 
 def get_beginer_week():
+    f = open('modules/reminder/data/start_date.txt', 'r', encoding="utf8")
+    for i in f:
+        s_date = i
+        break
+    start_date = datetime.strptime(s_date, '%d.%m.%Y').date()
     delta = date.today() - start_date
     delta = int(delta.days)
     if delta < 7:

@@ -3,7 +3,6 @@ import shutil
 from datetime import date,  datetime
 import threading
 from config import bot
-from config import start_date
 from modules.keyboards import keyboard_admin
 from loguru import logger
 from db import db
@@ -14,6 +13,9 @@ import time
 def reset_config(message, data, admin_panel):
     try:
         start_date = datetime.strptime(data, '%d.%m.%Y').date()
+        f = open('modules/reminder/data/start_date.txt', 'w', encoding="utf8")
+        f.write(data)
+        f.close()
         shutil.rmtree('user-data')
         os.mkdir('user-data')
         bot.send_message(
@@ -58,6 +60,11 @@ def reset_config(message, data, admin_panel):
 
 
 def mesage_starter():
+    f = open('modules/reminder/data/start_date.txt', 'r', encoding="utf8")
+    for i in f:
+        s_date = i
+        break
+    start_date = datetime.strptime(s_date, '%d.%m.%Y').date()
     logger.info('Запущен еще один поток, который запустит сообщения')
     time.sleep(60*60*24)
     logger.info(f'Пошло поехало {start_date}')

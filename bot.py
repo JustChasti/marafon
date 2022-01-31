@@ -4,7 +4,7 @@ from loguru import logger
 import loguru
 from telebot import *
 from db.db import user_collection
-from config import bot, start_date
+from config import bot
 from datetime import date, datetime
 
 from modules import registration
@@ -64,6 +64,11 @@ def start_chat(message):
 @bot.message_handler(content_types=['text'])
 @try_wrapper
 def main_chat(message):
+    f = open('modules/reminder/data/start_date.txt', 'r', encoding="utf8")
+    for i in f:
+        s_date = i
+        break
+    start_date = datetime.strptime(s_date, '%d.%m.%Y').date()
     print(f'{start_date}')
     result = user_collection.find_one({'telegram_id': message.from_user.id})
     if not result or datetime.now().date() < start_date:
@@ -224,6 +229,11 @@ def main_chat(message):
 @bot.message_handler(content_types=['photo'])
 @try_wrapper
 def sport_photo(message):
+    f = open('modules/reminder/data/start_date.txt', 'r', encoding="utf8")
+    for i in f:
+        s_date = i
+        break
+    start_date = datetime.strptime(s_date, '%d.%m.%Y').date()
     try:
         if '#тренировка' in message.caption or '#Тренировка' in message.caption:
             result = user_collection.find_one({'telegram_id': message.from_user.id})

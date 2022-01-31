@@ -2,7 +2,7 @@ from telebot import types
 from datetime import date
 import datetime
 from db.db import user_collection, clean_collection
-from config import bot, start_date, scores
+from config import bot, scores
 from modules.keyboards import keyboard_mind, keyboard_mind
 
 

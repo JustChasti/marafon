@@ -3,6 +3,7 @@ from datetime import date
 from db.db import user_collection, books_collection
 from config import bot, start_date, scores, regular_tasks
 from modules.keyboards import keyboard_mind
+from datetime import datetime
 
 
 def update_book(data, user_name):
@@ -30,6 +31,11 @@ def menu(message):
 
 
 def book(message):
+    f = open('modules/reminder/data/start_date.txt', 'r', encoding="utf8")
+    for i in f:
+        s_date = i
+        break
+    start_date = datetime.strptime(s_date, '%d.%m.%Y').date()
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
     button1 = types.KeyboardButton('Мышление')
     button2 = types.KeyboardButton('Здоровье')

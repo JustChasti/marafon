@@ -2,7 +2,7 @@ from os import remove
 from datetime import date
 from db.db import user_collection
 from config import bot
-from config import start_date
+from datetime import datetime
 from modules.keyboards import keyboard_admin
 import openpyxl
 from modules.excel import converter
@@ -47,6 +47,11 @@ excel_path = 'modules/excel/data/stats0.xlsx'
 
 
 def get_beginer_week_table(message, data, admin_panel):
+    f = open('modules/reminder/data/start_date.txt', 'r', encoding="utf8")
+    for i in f:
+        s_date = i
+        break
+    start_date = datetime.strptime(s_date, '%d.%m.%Y').date()
     try:
         delta = date.today() - start_date
         delta = int(delta.days)
