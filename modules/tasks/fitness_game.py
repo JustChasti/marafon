@@ -30,10 +30,6 @@ def game_switch(message):
 
 def menu(message, data):
     if message.text == 'Подтвердить':
-        bot.send_message(message.from_user.id,
-                         "Вы зарегистрировали фитнес игру",
-                         reply_markup=types.ReplyKeyboardRemove()
-                         )
         game(message, data)
     else:
         bot.send_message(message.from_user.id,
