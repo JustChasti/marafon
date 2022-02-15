@@ -1,7 +1,6 @@
 import os
 from telebot import types
 from datetime import date, datetime
-import datetime
 from db.db import user_collection, main_collection
 from config import bot, regular_tasks
 from modules.keyboards import keyboard_mind
@@ -18,7 +17,7 @@ def tasks_to_list(name):
                 {
                     'name': data[0],
                     'score': int(data[1]),
-                    'date':  datetime.datetime.strptime(data[2], '%d.%m.%y').date()
+                    'date':  datetime.strptime(data[2], '%d.%m.%y').date()
                 }
             )
         except Exception as e:

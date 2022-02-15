@@ -283,3 +283,5 @@ ValueError: time data '1' does not match format '%d.%m.%Y'
 2022-01-31 09:56:34.278 | INFO     | modules.admin.reset:mesage_starter:61 - «апущен еще один поток, который запустит сообщени€
 2022-01-31 14:29:27.259 | INFO     | modules.admin.reset:mesage_starter:62 - «апущен еще один поток, который запустит сообщени€
 2022-01-31 17:28:36.563 | INFO     | modules.admin.reset:mesage_starter:68 - «апущен еще один поток, который запустит сообщени€
+2022-02-15 01:44:48.968 | INFO     | modules.statistic.stats:get_all_stats:106 - user not registred
+2022-02-15 20:34:57.778 | INFO     | modules.admin.reset:mesage_starter:68 - «апущен еще один поток, который запустит сообщени€

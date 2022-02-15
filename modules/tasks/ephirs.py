@@ -1,6 +1,5 @@
 from telebot import types
-from datetime import date
-import datetime
+from datetime import date, datetime
 from db.db import user_collection, clean_collection
 from config import bot, scores
 from modules.keyboards import keyboard_mind, keyboard_mind
@@ -18,12 +17,12 @@ def get_ephirs():
                 {
                     'link': data[0],
                     'name': data[1],
-                    'date':  datetime.datetime.strptime(data[2], '%d.%m.%y').date(),
+                    'date':  datetime.strptime(data[2], '%d.%m.%y').date(),
                     'etap': data[3]
                 }
             )
         except Exception as e:
-            pass
+            print(e)
     f.close()
     return ephirs
 
