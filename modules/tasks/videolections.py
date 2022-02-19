@@ -1,10 +1,9 @@
 from telebot import types
 from datetime import date
 import datetime
-from db.db import user_collection, clean_collection
-from config import bot, scores
-from modules.keyboards import keyboard_mind, keyboard_mind
-
+from db.db import user_collection
+from config import bot
+from modules.keyboards import keyboard_video
 
 def get_videolections():
     f = open('modules/reminder/data/videolections.txt', 'r', encoding="utf8")
@@ -12,12 +11,11 @@ def get_videolections():
     for line in f:
         try:
             data = line.split('~')
-            data[2] = data[2].replace("\n", "")
+            data[1] = data[1].replace("\n", "")
             videolections.append(
                 {
                     'link': data[0],
-                    'name': data[1],
-                    'date':  datetime.datetime.strptime(data[2], '%d.%m.%y').date()
+                    'name': data[1]
                 }
             )
         except Exception as e:
@@ -32,9 +30,8 @@ def spisok(message, text):
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
     videolections = get_videolections()
     for i in videolections:
-        if i['date'] <= date.today():
-            button = types.KeyboardButton(i['name'])
-            keyboard.add(button)
+        button = types.KeyboardButton(i['name'])
+        keyboard.add(button)
     button = types.KeyboardButton('Назад')
     keyboard.add(button)
     bot.send_message(
@@ -50,7 +47,7 @@ def handler(message):
         bot.send_message(
             message.from_user.id,
             "Назад",
-            reply_markup=keyboard_mind
+            reply_markup=keyboard_video
         )
     else:
         flag = True
@@ -64,5 +61,5 @@ def handler(message):
             bot.send_message(
                 message.from_user.id,
                 "Такого видео нет",
-                reply_markup=keyboard_mind
+                reply_markup=keyboard_video
             )

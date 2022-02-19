@@ -2,7 +2,7 @@ from telebot import types
 from datetime import date, datetime
 from db.db import user_collection, lessons_collection
 from config import bot, scores, regular_tasks
-from modules.keyboards import keyboard_mind
+from modules.keyboards import keyboard_video
 
 
 def update_lessons(data, user_name):
@@ -26,7 +26,7 @@ def menu(message):
     else:
         bot.send_message(message.from_user.id,
                          "Выбери задание",
-                         reply_markup=keyboard_mind
+                         reply_markup=keyboard_video
                          )
 
 
@@ -37,10 +37,11 @@ def stream(message):
         break
     start_date = datetime.strptime(s_date, '%d.%m.%Y').date()
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    button1 = types.KeyboardButton('Мышление')
-    button2 = types.KeyboardButton('Здоровье')
-    button3 = types.KeyboardButton('Статистика')
-    keyboard.add(button1, button2, button3)
+    button1 = types.KeyboardButton('Запрограммированность')
+    button2 = types.KeyboardButton('Задания по лекциям')
+    button3 = types.KeyboardButton('Дополнительные задания')
+    button4 = types.KeyboardButton('Статистика')
+    keyboard.add(button1, button2, button3, button4)
 
     result = user_collection.find_one({'telegram_id': message.from_user.id})
     if result["programm"] == "beginer":

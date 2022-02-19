@@ -42,10 +42,11 @@ def m_tasks(message, task_data):
     start_date = datetime.strptime(s_date, '%d.%m.%Y').date()
     path = f'user-data/{message.from_user.id}'
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    button1 = types.KeyboardButton('Мышление')
-    button2 = types.KeyboardButton('Здоровье')
-    button3 = types.KeyboardButton('Статистика')
-    keyboard.add(button1, button2, button3)
+    button1 = types.KeyboardButton('Запрограммированность')
+    button2 = types.KeyboardButton('Задания по лекциям')
+    button3 = types.KeyboardButton('Дополнительные задания')
+    button4 = types.KeyboardButton('Статистика')
+    keyboard.add(button1, button2, button3, button4)
     result = user_collection.find_one({'telegram_id': message.from_user.id})
 
     task_id, task_score = task_data.split(".")

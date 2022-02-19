@@ -33,8 +33,8 @@ regular_tasks = {
     'audio_book': 0,
     'sport': 0,
     'fitness-game': 0,
-    'walk': 0,
-    'clean_day': 0,
+    'run-walk': 0,
+    'clean': 0,
     'stream': 0,
     'shower': 0
 }

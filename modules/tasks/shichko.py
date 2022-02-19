@@ -38,10 +38,11 @@ def shichko(message):
         break
     start_date = datetime.strptime(s_date, '%d.%m.%Y').date()
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    button1 = types.KeyboardButton('Мышление')
-    button2 = types.KeyboardButton('Здоровье')
-    button3 = types.KeyboardButton('Статистика')
-    keyboard.add(button1, button2, button3)
+    button1 = types.KeyboardButton('Запрограммированность')
+    button2 = types.KeyboardButton('Задания по лекциям')
+    button3 = types.KeyboardButton('Дополнительные задания')
+    button4 = types.KeyboardButton('Статистика')
+    keyboard.add(button1, button2, button3, button4)
     path = f'user-data/{message.from_user.id}'
     result = user_collection.find_one({'telegram_id': message.from_user.id})
     if result["programm"] == "beginer":
@@ -82,6 +83,7 @@ def shichko(message):
                     }
                 }
                 user_collection.update_one({'_id': result["_id"]}, element)
+                print('sh1')
             except KeyError as e:
                 data_week = regular_tasks
                 data_week['shichko'] = scores["Шичко"]
@@ -91,6 +93,7 @@ def shichko(message):
                     }
                 }
                 user_collection.update_one({'_id': result["_id"]}, element)
+                print('sh2')
             bot.send_message(message.from_user.id,
                              "Шичко загружен",
                              reply_markup=keyboard

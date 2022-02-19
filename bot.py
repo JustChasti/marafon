@@ -11,7 +11,7 @@ from modules import registration
 
 from modules.keyboards import keyboard_mind, keyboard_health, keyboard_main
 from modules.keyboards import keyboard_stats_b, keyboard_other, keyboard_switch
-from modules.keyboards import keyboard_fit_game
+from modules.keyboards import keyboard_fit_game, keyboard_video
 from modules.statistic.stats import get_beginer_week, get_beginer_stats
 from modules.statistic.stats import get_3program_stats, get_all_stats, my_stats
 
@@ -61,6 +61,24 @@ def start_chat(message):
     bot.register_next_step_handler(message, chek_password)
 
 
+def video_menu(message):
+    if message.text == 'Эфиры':
+        ephirs.spisok(message, 'Выберите вариант')
+    elif message.text == 'Дополнительные видеоматериалы':
+        videolections.spisok(message, 'Выберите вариант')
+    elif message.text == 'Подтвердить посещение эфира':
+        bot.send_message(message.from_user.id,
+                         "Выберете варинт",
+                         reply_markup=keyboard_switch
+                         )
+        bot.register_next_step_handler(message, lessons.menu)
+    else:
+        bot.send_message(message.from_user.id,
+                         "Выбери задание",
+                         reply_markup=keyboard_mind
+                         )
+
+
 @bot.message_handler(content_types=['text'])
 @try_wrapper
 def main_chat(message):
@@ -75,19 +93,19 @@ def main_chat(message):
         bot.send_message(message.from_user.id,
                          "Вы незарегистрированы или поток еще не стартовал"
                          )
-    elif message.text == 'Мышление':
+    elif message.text == 'Запрограммированность':
         bot.send_message(message.from_user.id,
                          "Выбери задание",
                          reply_markup=keyboard_mind
                          )
 
-    elif message.text == 'Здоровье':
+    elif message.text == 'Дополнительные задания':
         bot.send_message(message.from_user.id,
                          "Выбери задание",
                          reply_markup=keyboard_health
                          )
 
-    elif message.text == 'Шичко':
+    elif message.text == 'Дневник':
         bot.send_message(message.from_user.id,
                          "Выберете варинт",
                          reply_markup=keyboard_switch
@@ -108,7 +126,7 @@ def main_chat(message):
                          )
         bot.register_next_step_handler(message, plans.menu)
 
-    elif message.text == 'Посещение прямых эфиров':
+    elif message.text == 'Подтвердить посещение эфира':
         bot.send_message(message.from_user.id,
                          "Выберете варинт",
                          reply_markup=keyboard_switch
@@ -122,13 +140,20 @@ def main_chat(message):
                          )
         bot.register_next_step_handler(message, shower.menu)
 
-    elif message.text == 'Видеолекции':
+    elif message.text == 'Видеоматериалы':
+        bot.send_message(message.from_user.id,
+                         "Выбери задание",
+                         reply_markup=keyboard_video
+                         )
+        bot.register_next_step_handler(message, video_menu)
+
+    elif message.text == 'Дополнительные видеоматериалы':
         videolections.spisok(message, 'Выберите вариант')
 
     elif message.text == 'Эфиры':
         ephirs.spisok(message, 'Выберите вариант')
 
-    elif message.text == 'Основные':
+    elif message.text == 'Задания по лекциям':
         maint.spisok(message, 'Выберите вариант')
 
     elif message.text == 'Книга':

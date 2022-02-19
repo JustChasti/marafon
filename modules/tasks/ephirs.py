@@ -1,8 +1,8 @@
 from telebot import types
 from datetime import date, datetime
-from db.db import user_collection, clean_collection
-from config import bot, scores
-from modules.keyboards import keyboard_mind, keyboard_mind
+from db.db import user_collection
+from config import bot
+from modules.keyboards import keyboard_video
 from datetime import datetime
 
 
@@ -56,7 +56,7 @@ def handler(message):
         bot.send_message(
             message.from_user.id,
             "Назад",
-            reply_markup=keyboard_mind
+            reply_markup=keyboard_video
         )
     else:
         flag = True
@@ -70,5 +70,5 @@ def handler(message):
             bot.send_message(
                 message.from_user.id,
                 "Такого видео нет",
-                reply_markup=keyboard_mind
+                reply_markup=keyboard_video
             )

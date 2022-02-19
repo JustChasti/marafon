@@ -38,10 +38,11 @@ def plans(message):
         break
     start_date = datetime.strptime(s_date, '%d.%m.%Y').date()
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    button1 = types.KeyboardButton('Мышление')
-    button2 = types.KeyboardButton('Здоровье')
-    button3 = types.KeyboardButton('Статистика')
-    keyboard.add(button1, button2, button3)
+    button1 = types.KeyboardButton('Запрограммированность')
+    button2 = types.KeyboardButton('Задания по лекциям')
+    button3 = types.KeyboardButton('Дополнительные задания')
+    button4 = types.KeyboardButton('Статистика')
+    keyboard.add(button1, button2, button3, button4)
 
     result = user_collection.find_one({'telegram_id': message.from_user.id})
     if result["programm"] == "beginer":
@@ -60,23 +61,25 @@ def plans(message):
             else:
                 week = 'week 4'
             try:
-                print(result)
                 data = result[week]
+                data["planning"] += scores["Планирование"]
                 element = {
                     "$set": {
                         week: data
                     }
                 }
                 user_collection.update_one({'_id': result["_id"]}, element)
+                print('v1')
             except KeyError as e:
                 data_week = regular_tasks
-                data_week['plans'] = scores["Планирование"]
+                data_week['planning'] = scores["Планирование"]
                 element = {
                     "$set": {
                         week: data_week
                     }
                 }
                 user_collection.update_one({'_id': result["_id"]}, element)
+                print('v2')
             bot.send_message(message.from_user.id,
                              "Планирование загружено",
                              reply_markup=keyboard
@@ -94,20 +97,22 @@ def plans(message):
         response = update_plans(data, result["name"])
         if response:
             try:
-                data = result['plans'] + scores["Планирование"]
+                data = result['planning'] + scores["Планирование"]
                 element = {
                     "$set": {
-                        'plans': data
+                        'planning': data
                     }
                 }
                 user_collection.update_one({'_id': result["_id"]}, element)
+                print('v1')
             except KeyError as e:
                 element = {
                     "$set": {
-                        'plans': scores["Планирование"]
+                        'planning': scores["Планирование"]
                     }
                 }
                 user_collection.update_one({'_id': result["_id"]}, element)
+                print('v2')
             bot.send_message(message.from_user.id,
                              "Планирование загружено",
                              reply_markup=keyboard

@@ -132,7 +132,7 @@ def get_beginer_week_table(message, data, admin_panel):
                 except Exception as e:
                     pass
                 try:
-                    sheet[f'J{row}'] = data['walk']
+                    sheet[f'J{row}'] = data['run-walk']
                 except Exception as e:
                     pass
                 try:
@@ -140,7 +140,7 @@ def get_beginer_week_table(message, data, admin_panel):
                 except Exception as e:
                     pass
                 try:
-                    sheet[f'L{row}'] = data['clean_day']
+                    sheet[f'L{row}'] = data['clean']
                 except Exception as e:
                     pass
                 try:
@@ -216,8 +216,8 @@ def get_potok_table(message, data, admin_panel):
             except Exception as e:
                 sheet[f'C{row}'] = 0
             try:
-                sum += int(i['plans'])
-                sheet[f'D{row}'] = i['plans']
+                sum += int(i['planning'])
+                sheet[f'D{row}'] = i['planning']
             except Exception as e:
                 sheet[f'D{row}'] = 0
             try:
@@ -226,8 +226,8 @@ def get_potok_table(message, data, admin_panel):
             except Exception as e:
                 sheet[f'E{row}'] = 0
             try:
-                sum += int(i['main_task'])
-                sheet[f'F{row}'] = i['main_task']
+                sum += int(i['main_tasks'])
+                sheet[f'F{row}'] = i['main_tasks']
             except Exception as e:
                 sheet[f'F{row}'] = 0
             try:
@@ -379,7 +379,7 @@ def get_all_table(message, data, admin_panel):
                             except Exception as e:
                                 pass
                             try:
-                                run_b += data['walk']
+                                run_b += data['run-walk']
                             except Exception as e:
                                 pass
                             try:
@@ -387,7 +387,7 @@ def get_all_table(message, data, admin_panel):
                             except Exception as e:
                                 pass
                             try:
-                                clean_b += data['clean_day']
+                                clean_b += data['clean']
                             except Exception as e:
                                 pass
                             try:
@@ -415,8 +415,8 @@ def get_all_table(message, data, admin_panel):
                     except Exception as e:
                         sheet[f'C{row}'] = 0
                     try:
-                        sum += int(i['plans'])
-                        sheet[f'D{row}'] = i['plans']
+                        sum += int(i['planning'])
+                        sheet[f'D{row}'] = i['planning']
                     except Exception as e:
                         sheet[f'D{row}'] = 0
                     try:
@@ -425,8 +425,8 @@ def get_all_table(message, data, admin_panel):
                     except Exception as e:
                         sheet[f'E{row}'] = 0
                     try:
-                        sum += int(i['main_task'])
-                        sheet[f'F{row}'] = i['main_task']
+                        sum += int(i['main_tasks'])
+                        sheet[f'F{row}'] = i['main_tasks']
                     except Exception as e:
                         sheet[f'F{row}'] = 0
                     try:
